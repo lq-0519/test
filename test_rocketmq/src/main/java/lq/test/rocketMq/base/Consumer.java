@@ -1,4 +1,4 @@
-package lq.test.rocketMq;
+package lq.test.rocketMq.base;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;

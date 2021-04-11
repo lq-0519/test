@@ -1,4 +1,4 @@
-package lq.test.rocketMq;
+package lq.test.rocketMq.base;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -25,6 +25,7 @@ public class SyncProducer {
             );
             // 发送消息到一个Broker
             SendResult sendResult = producer.send(msg);
+            Thread.sleep(3000);
             // 通过sendResult返回消息是否成功送达
             System.out.printf("%s%n", sendResult);
         }

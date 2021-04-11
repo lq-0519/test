@@ -1,4 +1,4 @@
-package lq.test.rocketMq;
+package lq.test.rocketMq.base;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
