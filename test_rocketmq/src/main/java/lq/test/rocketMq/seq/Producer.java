@@ -45,10 +45,10 @@ public class Producer {
                 }
             }, orderList.get(i).getOrderId());//订单id
 
-            System.out.println(String.format("SendResult status:%s, queueId:%d, body:%s",
+            System.out.printf("SendResult status:%s, queueId:%d, body:%s%n",
                     sendResult.getSendStatus(),
                     sendResult.getMessageQueue().getQueueId(),
-                    body));
+                    body);
         }
 
         producer.shutdown();
