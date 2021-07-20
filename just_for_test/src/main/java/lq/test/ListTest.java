@@ -7,25 +7,36 @@ import java.util.ArrayList;
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
-        testInstanceof();
+        testTrim();
+    }
+
+    private static void testTrim() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("  123123");
+        for (String string : strings) {
+            string = string.trim();
+
+            System.out.println(string);
+            System.out.println(Long.valueOf(string));
+        }
     }
 
     private static void testInstanceof() {
-        Integer[] integers = {1,2,3};
+        Integer[] integers = {1, 2, 3};
         Object integers1 = integers;
-        if (integers1 instanceof Integer[]){
+        if (integers1 instanceof Integer[]) {
             System.out.println("Integer[]");
         }
-        if (integers1 instanceof int[]){
+        if (integers1 instanceof int[]) {
             System.out.println("int[]");
         }
         System.out.println("--------------");
-        int[] int1 = {1,2,3};
+        int[] int1 = {1, 2, 3};
         Object int2 = int1;
-        if (int2 instanceof Integer[]){
+        if (int2 instanceof Integer[]) {
             System.out.println("Integer[]");
         }
-        if (int2 instanceof int[]){
+        if (int2 instanceof int[]) {
             System.out.println("int[]");
         }
     }
