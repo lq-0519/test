@@ -7,7 +7,27 @@ import java.util.ArrayList;
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
-        testTrim();
+
+//        method();
+
+        for (int j = 3; j > -6; j--) {
+            try {
+                System.out.println(j);
+                if (j == 0) {
+                    throw new RuntimeException();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+//                throw new RuntimeException();
+            }
+        }
+    }
+
+    private static void method() {
+        Man man = new Man();
+        man.setAge(1);
+        man.setName("lq");
+        System.out.println(JSON.toJSONString(man));
     }
 
     private static void testTrim() {
