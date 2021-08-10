@@ -7,9 +7,26 @@ import java.util.ArrayList;
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
+        String s1 = "asdasdasdasd%s, , ,%s ads %s";
+        Long a1 = 102746321L;
+        String s2 = "1";
+        String s3 = "2";
+        String format = String.format(s1, a1, s2, s3);
+        System.out.println("format = " + format);
 
-//        method();
+    }
 
+    private static void m4() {
+        ArrayList<VenderColType> venderColTypes = new ArrayList<>();
+        venderColTypes.add(new VenderColType(1L,1));
+        venderColTypes.add(new VenderColType(2L,12));
+        venderColTypes.add(new VenderColType(3L,13));
+        venderColTypes.add(new VenderColType(4L,14));
+        venderColTypes.add(new VenderColType(5L,16));
+        System.out.println(JSON.toJSONString(venderColTypes));
+    }
+
+    private static void m3() {
         for (int j = 3; j > -6; j--) {
             try {
                 System.out.println(j);
