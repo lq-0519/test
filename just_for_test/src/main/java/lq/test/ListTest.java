@@ -1,28 +1,45 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
+        int i = 0;
+        Assert.isTrue(i == 1, "asd");
+    }
+
+    private static void m6() {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(0, "12312434!@#!@#");
+        map.put(1, "12312434!@#!@#");
+        System.out.println(JSON.toJSONString(map));
+
+        String mapStr = "{0:'12312434!@#!@#',1:'12312434!@#!@#'}";
+        HashMap map1 = JSON.parseObject(mapStr, HashMap.class);
+        System.out.println(JSON.toJSONString(map1));
+    }
+
+    private static void m5() {
         String s1 = "asdasdasdasd%s, , ,%s ads %s";
         Long a1 = 102746321L;
         String s2 = "1";
         String s3 = "2";
         String format = String.format(s1, a1, s2, s3);
         System.out.println("format = " + format);
-
     }
 
     private static void m4() {
         ArrayList<VenderColType> venderColTypes = new ArrayList<>();
-        venderColTypes.add(new VenderColType(1L,1));
-        venderColTypes.add(new VenderColType(2L,12));
-        venderColTypes.add(new VenderColType(3L,13));
-        venderColTypes.add(new VenderColType(4L,14));
-        venderColTypes.add(new VenderColType(5L,16));
+        venderColTypes.add(new VenderColType(1L, 1));
+        venderColTypes.add(new VenderColType(2L, 12));
+        venderColTypes.add(new VenderColType(3L, 13));
+        venderColTypes.add(new VenderColType(4L, 14));
+        venderColTypes.add(new VenderColType(5L, 16));
         System.out.println(JSON.toJSONString(venderColTypes));
     }
 
