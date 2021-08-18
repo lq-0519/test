@@ -5,10 +5,27 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
+//        m7();
+
+        List<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            integers.add(i);
+        }
+
+        integers = integers.stream()
+                .filter(v -> v % 3 == 0)
+                .collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(integers));
+    }
+
+
+    private static void m7() {
         int i = 0;
         Assert.isTrue(i == 1, "asd");
     }
