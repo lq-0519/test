@@ -11,8 +11,18 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
-//        m7();
+        PageVO<Man> manPageVO = new PageVO<>();
+        List<Man> mens = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            mens.add(new Man(i, "asd" + i));
+        }
+        manPageVO.setItems(mens);
+        String s = JSON.toJSONString(mens);
+        System.out.println(s);
+        System.out.println(JSON.toJSONString(JSON.parseObject(s, PageVO.class)));
+    }
 
+    private static void m8() {
         List<Integer> integers = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             integers.add(i);
