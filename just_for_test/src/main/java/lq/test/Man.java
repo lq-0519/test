@@ -17,4 +17,8 @@ public class Man implements Serializable {
     private Integer age;
 
     private String name;
+
+    protected String showName() {
+        return null;
+    }
 }

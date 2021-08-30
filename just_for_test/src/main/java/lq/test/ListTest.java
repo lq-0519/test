@@ -11,13 +11,26 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
     public static void main(String[] args) {
+//        m10();
+        long i = 1;
+        Long a = 3L;
+        System.out.println(a != i);
+    }
+
+    private static void m10() {
+        Man man = new LittleMan();
+        man.setName("123");
+        System.out.println(man.showName());
+    }
+
+    private static void m9() {
         PageVO<Man> manPageVO = new PageVO<>();
         List<Man> mens = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             mens.add(new Man(i, "asd" + i));
         }
         manPageVO.setItems(mens);
-        String s = JSON.toJSONString(mens);
+        String s = JSON.toJSONString(manPageVO);
         System.out.println(s);
         System.out.println(JSON.toJSONString(JSON.parseObject(s, PageVO.class)));
     }
