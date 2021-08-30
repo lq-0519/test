@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,8 +22,8 @@ public class ListTest {
      */
     private static final ExecutorService TEST_THREAD_POOL = new ThreadPoolExecutor(
             5,
-            5,
-            2, TimeUnit.SECONDS,
+            10,
+            0, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(20),
             new ThreadFactoryImpl("test"),
             new ThreadPoolExecutor.CallerRunsPolicy());
@@ -30,12 +31,32 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
-        Man man = getMan();
-        man.setAge(1);
-        System.out.println("当前线程:" + Thread.currentThread().getName() + ", 第一次获取:" + JSON.toJSONString(man));
-        Man man1 = getMan();
-        System.out.println("当前线程:" + Thread.currentThread().getName() + ", 第二次获取:" + JSON.toJSONString(man1));
-        System.out.println(man1 == man);
+        m13();
+    }
+
+    private static void m13() {
+        final Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
+            Runnable runnable = () -> {
+                Man man = getMan();
+                man.setAge(finalI);
+                System.out.println("当前线程:" + Thread.currentThread().getName() + ", 第一次获取:" + JSON.toJSONString(man));
+                int a = random.nextInt();
+                if (a % 9 == 0) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            TEST_THREAD_POOL.execute(runnable);
+        }
+    }
+
+    private void manRemove() {
+        THREAD_LOCAL.remove();
     }
 
     private static Man getMan() {
@@ -47,10 +68,6 @@ public class ListTest {
             THREAD_LOCAL.set(man);
         }
         return man;
-    }
-
-    private void manRemove() {
-        THREAD_LOCAL.remove();
     }
 
     private void m11() {
