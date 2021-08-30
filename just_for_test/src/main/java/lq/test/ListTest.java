@@ -31,7 +31,6 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
-        m13();
     }
 
     private static void m13() {
