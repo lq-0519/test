@@ -1,29 +1,71 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
 public class ListTest {
+
+    /**
+     * 创建测试用线程池
+     */
+    private static final ExecutorService TEST_THREAD_POOL = new ThreadPoolExecutor(
+            5,
+            5,
+            2, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(20),
+            new ThreadFactoryImpl("test"),
+            new ThreadPoolExecutor.CallerRunsPolicy());
+
+    private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
+
     public static void main(String[] args) {
-//        m10();
+        Man man = getMan();
+        man.setAge(1);
+        System.out.println("当前线程:" + Thread.currentThread().getName() + ", 第一次获取:" + JSON.toJSONString(man));
+        Man man1 = getMan();
+        System.out.println("当前线程:" + Thread.currentThread().getName() + ", 第二次获取:" + JSON.toJSONString(man1));
+        System.out.println(man1 == man);
+    }
+
+    private static Man getMan() {
+        Man man = THREAD_LOCAL.get();
+        if (man == null) {
+            man = new Man();
+            String name = Thread.currentThread().getName();
+            man.setName(name);
+            THREAD_LOCAL.set(man);
+        }
+        return man;
+    }
+
+    private void manRemove() {
+        THREAD_LOCAL.remove();
+    }
+
+    private void m11() {
         long i = 1;
         Long a = 3L;
         System.out.println(a != i);
     }
 
-    private static void m10() {
+    private void m10() {
         Man man = new LittleMan();
         man.setName("123");
         System.out.println(man.showName());
     }
 
-    private static void m9() {
+    private void m9() {
         PageVO<Man> manPageVO = new PageVO<>();
         List<Man> mens = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -35,7 +77,7 @@ public class ListTest {
         System.out.println(JSON.toJSONString(JSON.parseObject(s, PageVO.class)));
     }
 
-    private static void m8() {
+    private void m8() {
         List<Integer> integers = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             integers.add(i);
@@ -48,12 +90,12 @@ public class ListTest {
     }
 
 
-    private static void m7() {
+    private void m7() {
         int i = 0;
         Assert.isTrue(i == 1, "asd");
     }
 
-    private static void m6() {
+    private void m6() {
         HashMap<Integer, String> map = new HashMap<>();
         map.put(0, "12312434!@#!@#");
         map.put(1, "12312434!@#!@#");
@@ -64,7 +106,7 @@ public class ListTest {
         System.out.println(JSON.toJSONString(map1));
     }
 
-    private static void m5() {
+    private void m5() {
         String s1 = "asdasdasdasd%s, , ,%s ads %s";
         Long a1 = 102746321L;
         String s2 = "1";
@@ -73,7 +115,7 @@ public class ListTest {
         System.out.println("format = " + format);
     }
 
-    private static void m4() {
+    private void m4() {
         ArrayList<VenderColType> venderColTypes = new ArrayList<>();
         venderColTypes.add(new VenderColType(1L, 1));
         venderColTypes.add(new VenderColType(2L, 12));
@@ -83,7 +125,7 @@ public class ListTest {
         System.out.println(JSON.toJSONString(venderColTypes));
     }
 
-    private static void m3() {
+    private void m3() {
         for (int j = 3; j > -6; j--) {
             try {
                 System.out.println(j);
@@ -97,14 +139,14 @@ public class ListTest {
         }
     }
 
-    private static void method() {
+    private void method() {
         Man man = new Man();
         man.setAge(1);
         man.setName("lq");
         System.out.println(JSON.toJSONString(man));
     }
 
-    private static void testTrim() {
+    private void testTrim() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("  123123");
         for (String string : strings) {
@@ -115,7 +157,7 @@ public class ListTest {
         }
     }
 
-    private static void testInstanceof() {
+    private void testInstanceof() {
         Integer[] integers = {1, 2, 3};
         Object integers1 = integers;
         if (integers1 instanceof Integer[]) {
@@ -135,14 +177,14 @@ public class ListTest {
         }
     }
 
-    private static void m2() {
+    private void m2() {
         WhiteBackgroundImgVO whiteBackgroundImgVO = new WhiteBackgroundImgVO();
         whiteBackgroundImgVO.setWhiteBackgroundImg("WhiteBackgroundImg");
         whiteBackgroundImgVO.setBannerId("BannerId");
         System.out.println(JSON.toJSON(whiteBackgroundImgVO));
     }
 
-    private static void m1() {
+    private void m1() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add(null);
         strings.add(null);
