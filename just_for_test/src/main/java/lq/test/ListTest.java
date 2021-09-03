@@ -1,6 +1,7 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.util.Assert;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -31,6 +33,23 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
+        final CountDownLatch latch = new CountDownLatch(20);
+        for (int i = 0; i < 100; i++) {
+            TEST_THREAD_POOL.execute(new Runnable() {
+                @Override
+                public void run() {
+                    latch.countDown();
+                    System.out.println(JSON.toJSONString(latch));
+                }
+            });
+        }
+    }
+
+    private static void m12() {
+        String s = "   00234234 ";
+        s = s.trim();
+        System.out.println(NumberUtils.isDigits(s));
+        System.out.println(Long.valueOf(s));
     }
 
     private static void m13() {
