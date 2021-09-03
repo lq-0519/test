@@ -35,12 +35,9 @@ public class ListTest {
     public static void main(String[] args) {
         final CountDownLatch latch = new CountDownLatch(20);
         for (int i = 0; i < 100; i++) {
-            TEST_THREAD_POOL.execute(new Runnable() {
-                @Override
-                public void run() {
-                    latch.countDown();
-                    System.out.println(JSON.toJSONString(latch));
-                }
+            TEST_THREAD_POOL.execute(() -> {
+                latch.countDown();
+                System.out.println(JSON.toJSONString(latch));
             });
         }
     }
