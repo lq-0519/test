@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -33,6 +34,15 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
+        LinkedList<String> strings = new LinkedList<>();
+        strings.add(null);
+        strings.add(null);
+        strings.add(null);
+        strings.add(null);
+        System.out.println(JSON.toJSONString(strings));
+    }
+
+    private static void m14() {
         final CountDownLatch latch = new CountDownLatch(20);
         for (int i = 0; i < 100; i++) {
             TEST_THREAD_POOL.execute(() -> {
