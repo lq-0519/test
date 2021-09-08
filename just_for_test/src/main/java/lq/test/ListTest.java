@@ -3,6 +3,7 @@ package lq.test;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -34,6 +35,17 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
+        People people = new People();
+        people.setAge(1);
+        people.setName("123");
+        Man man = new Man();
+        man.setAge(2);
+        BeanUtils.copyProperties(people, man);
+        System.out.println(JSON.toJSONString(man));
+
+    }
+
+    private static void m15() {
         LinkedList<String> strings = new LinkedList<>();
         strings.add(null);
         strings.add(null);
