@@ -51,8 +51,8 @@ public class ListTest {
                 new Man(23, "21"),
                 new Man(29, "22")
         );
-        Map<Integer, List<Man>> collect = list.stream()
-                .collect(Collectors.groupingBy(Man::getAge));
+        Map<Integer, Long> collect = list.stream()
+                .collect(Collectors.groupingBy(Man::getAge, Collectors.counting()));
         System.out.println(JSON.toJSONString(collect));
     }
 
