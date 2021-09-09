@@ -1,6 +1,7 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -35,6 +37,26 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
+        ArrayList<Man> list = Lists.newArrayList(
+                new Man(22, "11"),
+                new Man(23, "12"),
+                new Man(24, "13"),
+                new Man(21, "14"),
+                new Man(22, "15"),
+                new Man(21, "16"),
+                new Man(25, "17"),
+                new Man(26, "18"),
+                new Man(24, "19"),
+                new Man(23, "10"),
+                new Man(23, "21"),
+                new Man(29, "22")
+        );
+        Map<Integer, List<Man>> collect = list.stream()
+                .collect(Collectors.groupingBy(Man::getAge));
+        System.out.println(JSON.toJSONString(collect));
+    }
+
+    private static void m16() {
         People people = new People();
         people.setAge(1);
         people.setName("123");
@@ -42,7 +64,6 @@ public class ListTest {
         man.setAge(2);
         BeanUtils.copyProperties(people, man);
         System.out.println(JSON.toJSONString(man));
-
     }
 
     private static void m15() {
