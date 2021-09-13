@@ -27,7 +27,7 @@ public class ListTest {
     /**
      * 创建测试用线程池
      */
-    private static final ExecutorService TEST_THREAD_POOL = new ThreadPoolExecutor(
+    private static final ExecutorService POOL_EXECUTOR = new ThreadPoolExecutor(
             5,
             10,
             0, TimeUnit.SECONDS,
@@ -36,8 +36,64 @@ public class ListTest {
             new ThreadPoolExecutor.CallerRunsPolicy());
 
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
+    private static int bucketSize = 0;
+    private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
+
+    }
+
+    private static void m19() {
+        // 每秒产生一个令牌
+        POOL_EXECUTOR.execute(() -> {
+            while (true) {
+                bucketSize++;
+                try {
+                    // 每隔一秒增加一个令牌数量
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.printf("令牌桶大小:%s\n", bucketSize);
+            }
+        });
+
+        // 每4s产生一个随机大小的数据包
+        POOL_EXECUTOR.execute(() -> {
+            Random random = new Random();
+            while (true) {
+                try {
+                    // 4s产生一个随机大小的数据包
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                integers.add(random.nextInt(16));
+                System.out.println("数据包, 队列内容: " + integers);
+            }
+        });
+
+        // 10ms检查一次数据包队列是不是可以发送数据了
+        POOL_EXECUTOR.execute(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (integers.size() > 0) {
+                    Integer integer = integers.getFirst();
+                    if (bucketSize >= integer) {
+                        bucketSize -= integer;
+                        integers.removeFirst();
+                        System.out.println("发送数据包, 数据包大小" + integer);
+                    }
+                }
+            }
+        });
+    }
+
+    private static void m18() {
         Optional<Man> man = Optional.ofNullable(new Man());
         System.out.println(man);
         System.out.println(man.get());
@@ -88,7 +144,7 @@ public class ListTest {
     private static void m14() {
         final CountDownLatch latch = new CountDownLatch(20);
         for (int i = 0; i < 100; i++) {
-            TEST_THREAD_POOL.execute(() -> {
+            POOL_EXECUTOR.execute(() -> {
                 latch.countDown();
                 System.out.println(JSON.toJSONString(latch));
             });
@@ -119,7 +175,7 @@ public class ListTest {
                     }
                 }
             };
-            TEST_THREAD_POOL.execute(runnable);
+            POOL_EXECUTOR.execute(runnable);
         }
     }
 
