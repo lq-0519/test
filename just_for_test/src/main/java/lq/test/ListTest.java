@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -37,6 +38,15 @@ public class ListTest {
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void main(String[] args) {
+        Optional<Man> man = Optional.ofNullable(new Man());
+        System.out.println(man);
+        System.out.println(man.get());
+        System.out.println("---");
+        Man man1 = (Man) Optional.ofNullable(null).orElse(new Man());
+        System.out.println(man1);
+    }
+
+    private static void m17() {
         ArrayList<Man> list = Lists.newArrayList(
                 new Man(22, "11"),
                 new Man(23, "12"),
