@@ -40,6 +40,14 @@ public class ListTest {
     private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
+        HashMap<String, Object> map = new HashMap<>();
+        System.out.println(JSON.toJSONString(map));
+        map.put("key", map);
+        System.out.println(map);
+        System.out.println(JSON.toJSONString(map));
+    }
+
+    private static void m20() {
         Boolean s = false;
         String format = String.format("asdfsdfsadf%s", s);
         System.out.println(format);
