@@ -40,7 +40,7 @@ public class ListTest {
     private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
-        String s = null;
+        Boolean s = false;
         String format = String.format("asdfsdfsadf%s", s);
         System.out.println(format);
     }
