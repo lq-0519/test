@@ -40,6 +40,25 @@ public class ListTest {
     private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
+        System.out.println(1);
+        POOL_EXECUTOR.execute(ListTest::testVoid);
+        System.out.println(2);
+        POOL_EXECUTOR.shutdownNow();
+
+    }
+
+    private static void testVoid() {
+        try {
+            for (int i = 0; i < 5; i++) {
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static void m21() {
         HashMap<String, Object> map = new HashMap<>();
         System.out.println(JSON.toJSONString(map));
         map.put("key", map);
