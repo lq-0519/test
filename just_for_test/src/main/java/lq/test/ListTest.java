@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable"})
+@SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread"})
 public class ListTest {
 
     /**
@@ -40,11 +40,41 @@ public class ListTest {
     private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
+        threadSleepUsePool(999);
+        POOL_EXECUTOR.shutdown();
+    }
+
+    private static void m1517() {
         System.out.println(1);
         POOL_EXECUTOR.execute(ListTest::testVoid);
         System.out.println(2);
         POOL_EXECUTOR.shutdownNow();
+    }
 
+    private static void threadSleepUsePool(int seconds) {
+        POOL_EXECUTOR.execute(() -> {
+            for (int i = 0; i < seconds; i++) {
+                try {
+                    Thread.sleep(1000);
+                    System.out.println("threadSleepUsePool: " + i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private static void threadSleep(int seconds) {
+        new Thread(() -> {
+            for (int i = 0; i < seconds; i++) {
+                try {
+                    Thread.sleep(1000);
+                    System.out.println("threadSleep: " + i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private static void testVoid() {
