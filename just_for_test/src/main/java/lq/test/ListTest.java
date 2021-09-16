@@ -40,8 +40,10 @@ public class ListTest {
     private static LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) {
-        threadSleepUsePool(999);
-        POOL_EXECUTOR.shutdown();
+        String s = "你好!";
+        System.out.println("s.length() = " + s.length());
+        String s1 = "adf!";
+        System.out.println("s1.length() = " + s1.length());
     }
 
     private static void m1517() {
