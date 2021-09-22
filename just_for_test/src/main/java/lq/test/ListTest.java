@@ -44,7 +44,7 @@ public class ListTest {
     public static void main(String[] args) throws Exception {
 
         //指定初始容量15来创建一个HashMap
-        HashMap map = new HashMap(1);
+        HashMap<Integer, Integer> map = new HashMap(1);
         //获取HashMap整个类
         Class<?> mapType = map.getClass();
         //获取指定属性，也可以调用getDeclaredFields()方法获取属性数组
