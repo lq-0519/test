@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +43,13 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        TestException testException = new TestException("1", "123");
+        Exception exception = new Exception();
+        throw exception;
+    }
 
-        //指定初始容量15来创建一个HashMap
+    private static void m0922() throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        //指定初始容量1来创建一个HashMap
         HashMap<Integer, Integer> map = new HashMap(1);
         //获取HashMap整个类
         Class<?> mapType = map.getClass();
