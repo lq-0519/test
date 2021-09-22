@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -45,6 +46,10 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        testMd5();
+    }
+
+    private static void testMd5() throws NoSuchAlgorithmException {
         // 生成一个MD5加密计算摘要
         MessageDigest md = MessageDigest.getInstance("MD5");
         // 计算md5函数
