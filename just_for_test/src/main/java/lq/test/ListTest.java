@@ -39,7 +39,7 @@ public class ListTest {
 
     private static final ThreadLocal<Man> THREAD_LOCAL = new ThreadLocal<>();
     private static int bucketSize = 0;
-    private static LinkedList<Integer> integers = new LinkedList<>();
+    private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
 
