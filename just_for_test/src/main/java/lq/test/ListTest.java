@@ -10,6 +10,8 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -43,6 +45,17 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        // 生成一个MD5加密计算摘要
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        // 计算md5函数
+        md.update("e10adc3949ba59abbe56e057f20f883e".getBytes());
+        // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+        // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+        String s = new BigInteger(1, md.digest()).toString(16);
+        System.out.println("s = " + s);
+    }
+
+    private static void m22() throws Exception {
         TestException testException = new TestException("1", "123");
         Exception exception = new Exception();
         throw exception;
