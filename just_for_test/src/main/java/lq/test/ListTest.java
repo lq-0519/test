@@ -1,6 +1,8 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
@@ -27,7 +29,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread"})
+@SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread", "unused"})
 public class ListTest {
 
     /**
@@ -46,7 +48,29 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
-        testMd5();
+        Integer integer = 1;
+        TestEnum testEnum = TestEnum.parseOf(integer);
+        System.out.println("testEnum = " + testEnum);
+        switch (testEnum) {
+            case ENUM0:
+                System.out.println(0);
+                break;
+            case ENUM1:
+                System.out.println(1);
+                break;
+            case ENUM2:
+                System.out.println(2);
+                break;
+            default:
+                System.out.println("default");
+                break;
+        }
+    }
+
+    private static void testCache() {
+        Cache<String, String> cache = CacheBuilder.newBuilder()
+                .build();
+        System.out.println(cache);
     }
 
     private static void testMd5() throws NoSuchAlgorithmException {
