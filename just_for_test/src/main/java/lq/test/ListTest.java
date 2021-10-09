@@ -48,6 +48,21 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        String s = testTryReturn();
+        System.out.println("s = " + s);
+    }
+
+    private static String testTryReturn() {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
+        return "12";
+    }
+
+    private static void m25() {
         int a = 1;
         System.out.println(a % 2000 == 0 ? a / 2000 : (a / 2000 + 1));
     }
