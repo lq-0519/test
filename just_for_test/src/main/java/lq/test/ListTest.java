@@ -48,6 +48,11 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        int a = 1;
+        System.out.println(a % 2000 == 0 ? a / 2000 : (a / 2000 + 1));
+    }
+
+    private static void m24() {
         Integer integer = 1;
         TestEnum testEnum = TestEnum.parseOf(integer);
         System.out.println("testEnum = " + testEnum);
