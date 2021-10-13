@@ -48,6 +48,16 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        BeanSource beanSource = new BeanSource();
+        beanSource.setName("123");
+        ArrayList<String> names = Lists.newArrayList("1", "2", "3");
+        beanSource.setNames(names);
+        BeanTarget beanTarget = new BeanTarget();
+        BeanUtils.copyProperties(beanSource, beanTarget);
+        System.out.println(JSON.toJSONString(beanTarget));
+    }
+
+    private static void m26() {
         String s = testTryReturn();
         System.out.println("s = " + s);
     }
