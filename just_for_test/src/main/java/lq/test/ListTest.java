@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -48,6 +49,16 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+
+    }
+
+    private static void m28() {
+        BigDecimal bigDecimal = new BigDecimal(2123123);
+        String s = bigDecimal.toString();
+        System.out.println(s);
+    }
+
+    private static void m27() {
         BeanSource beanSource = new BeanSource();
         beanSource.setName("123");
         ArrayList<String> names = Lists.newArrayList("1", "2", "3");
