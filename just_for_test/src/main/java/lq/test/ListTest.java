@@ -49,11 +49,28 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
-        String s = "10033233497458";
-        m29(s);
+
     }
 
-    private static void m29(String s) {
+    private static void m30() {
+        int arg = 5;
+        switch (arg) {
+            case 1:
+                System.out.println(1);
+                break;
+            case 2:
+                System.out.println(2);
+            case 3:
+                System.out.println(3);
+                break;
+            default:
+                System.out.println("-1");
+                break;
+        }
+    }
+
+    private static void m29() {
+        String s = "10033233497458";
         System.out.println(NumberUtils.isNumber(s));
     }
 
