@@ -49,7 +49,14 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
-
+        Man man = new Man();
+        man.setAge(1);
+        man.setName("123");
+        String s = JSON.toJSONString(man);
+        System.out.println("s = " + s);
+        Man man1 = JSON.parseObject(s, Man.class);
+        System.out.println("man1 = " + man1);
+        System.out.println("JSON.toJSONString(man1) = " + JSON.toJSONString(man1));
     }
 
     private static void m30() {
