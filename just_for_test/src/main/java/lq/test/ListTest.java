@@ -49,7 +49,12 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+        String s = "10033233497458";
+        m29(s);
+    }
 
+    private static void m29(String s) {
+        System.out.println(NumberUtils.isNumber(s));
     }
 
     private static void m28() {
