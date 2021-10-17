@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread", "unused"})
-public class ListTest {
+public class Test {
 
     /**
      * 创建测试用线程池
@@ -49,6 +49,9 @@ public class ListTest {
     private static final LinkedList<Integer> integers = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
+    }
+
+    private static void m31() {
         Man man = new Man();
         man.setAge(1);
         man.setName("123");
@@ -191,7 +194,7 @@ public class ListTest {
 
     private static void m1517() {
         System.out.println(1);
-        POOL_EXECUTOR.execute(ListTest::testVoid);
+        POOL_EXECUTOR.execute(Test::testVoid);
         System.out.println(2);
         POOL_EXECUTOR.shutdownNow();
     }
