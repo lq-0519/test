@@ -54,6 +54,10 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        m30();
+    }
+
+    private static void m32() {
         // 创建2000个随机数组成的数组:
         long[] array = new long[2000];
         long expectedSum = 0;
@@ -74,8 +78,6 @@ public class Test {
         return random.nextInt(10000);
     }
 
-    private static void m31() {
-    }
 
     private static void m31() {
         Man man = new Man();
@@ -89,13 +91,15 @@ public class Test {
     }
 
     private static void m30() {
-        int arg = 5;
+        int arg = 1;
         switch (arg) {
-            case 1:
-                System.out.println(1);
-                break;
+            case 1: {
+                System.out.println(111);
+                System.out.println(11);
+            }
             case 2:
                 System.out.println(2);
+                break;
             case 3:
                 System.out.println(3);
                 break;
