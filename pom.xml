@@ -17,9 +17,39 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spring.version>4.2.5.RELEASE</spring.version>
+        <jasypt.version>1.9.2</jasypt.version>
+        <jasypt.spring.version>1.9.2</jasypt.spring.version>
+        <icu4j.version>3.4.4</icu4j.version>
+        <jasypt.lite.version>1.9.2</jasypt.lite.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${jasypt.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt-spring31</artifactId>
+            <version>${jasypt.spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>${icu4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${jasypt.lite.version}</version>
+            <classifier>lite</classifier>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
