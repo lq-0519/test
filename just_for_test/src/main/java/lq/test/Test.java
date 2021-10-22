@@ -56,6 +56,36 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         StopWatch clock = new StopWatch();
+        for (int i = 0; i < 4; i++) {
+            clock.start();
+            Thread.sleep(1000);
+            clock.stop();
+            System.out.println(clock.getLastTaskTimeMillis());
+        }
+        System.out.println(clock.getTotalTimeMillis());
+    }
+
+    private static void m35() {
+        LinkedList<Integer> integers = new LinkedList<>();
+        LinkedList<Integer> l2 = new LinkedList<>();
+        for (int i = 0; i < 9999; i++) {
+            integers.add(i);
+        }
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        integers.parallelStream()
+                .forEach(v -> {
+                    Random random = new Random();
+                    int i = random.nextInt();
+                    l2.add(i);
+                });
+        stopWatch.stop();
+        System.out.println(stopWatch.getTotalTimeMillis());
+    }
+
+    private static void m34() throws InterruptedException {
+        StopWatch clock = new StopWatch();
         clock.start("TaskOneName");
         Thread.sleep(300);// 任务一模拟休眠3秒钟
         clock.stop();
@@ -65,8 +95,7 @@ public class Test {
         clock.start("TaskThreeName");
         Thread.sleep(400);// 任务一模拟休眠10秒钟
         clock.stop();
-//        System.out.println(clock.);
-
+        System.out.println(clock.getTotalTimeMillis());
     }
 
     private static void m33() {
