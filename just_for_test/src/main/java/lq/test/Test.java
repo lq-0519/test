@@ -17,6 +17,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,7 +55,12 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
-        m30();
+        String regex = ",|，";
+//        String regex = "[,，]";
+        String s = "1231,23，，4123";
+        String[] split = s.split(regex);
+        System.out.println(Arrays.toString(split));
+
     }
 
     private static void m32() {
@@ -93,10 +99,8 @@ public class Test {
     private static void m30() {
         int arg = 1;
         switch (arg) {
-            case 1: {
-                System.out.println(111);
-                System.out.println(11);
-            }
+            case 1:
+                System.out.println(1);
             case 2:
                 System.out.println(2);
                 break;
