@@ -8,6 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +30,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -55,12 +55,26 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        StopWatch clock = new StopWatch();
+        clock.start("TaskOneName");
+        Thread.sleep(300);// 任务一模拟休眠3秒钟
+        clock.stop();
+        clock.start("TaskTwoName");
+        Thread.sleep(300);// 任务一模拟休眠10秒钟
+        clock.stop();
+        clock.start("TaskThreeName");
+        Thread.sleep(400);// 任务一模拟休眠10秒钟
+        clock.stop();
+//        System.out.println(clock.);
+
+    }
+
+    private static void m33() {
         String regex = ",|，";
 //        String regex = "[,，]";
         String s = "1231,23，，4123";
         String[] split = s.split(regex);
         System.out.println(Arrays.toString(split));
-
     }
 
     private static void m32() {
@@ -577,46 +591,5 @@ public class Test {
         for (String string : strings) {
             System.out.println(string.length());
         }
-    }
-}
-
-class SumTask extends RecursiveTask<Long> {
-    static final int THRESHOLD = 300;
-    long[] array;
-    int start;
-    int end;
-
-    SumTask(long[] array, int start, int end) {
-        this.array = array;
-        this.start = start;
-        this.end = end;
-    }
-
-    @Override
-    protected Long compute() {
-        if (end - start <= THRESHOLD) {
-            // 如果任务足够小,直接计算:
-            long sum = 0;
-            for (int i = start; i < end; i++) {
-                sum += this.array[i];
-                // 故意放慢计算速度:
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                }
-            }
-            return sum;
-        }
-        // 任务太大,一分为二:
-        int middle = (end + start) / 2;
-        System.out.println(String.format("split %d~%d ==> %d~%d, %d~%d", start, end, start, middle, middle, end));
-        SumTask subtask1 = new SumTask(this.array, start, middle);
-        SumTask subtask2 = new SumTask(this.array, middle, end);
-        invokeAll(subtask1, subtask2);
-        Long subresult1 = subtask1.join();
-        Long subresult2 = subtask2.join();
-        Long result = subresult1 + subresult2;
-        System.out.println("result = " + subresult1 + " + " + subresult2 + " ==> " + result);
-        return result;
     }
 }
