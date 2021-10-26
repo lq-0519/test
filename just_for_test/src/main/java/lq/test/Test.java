@@ -55,6 +55,21 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        long l = System.currentTimeMillis();
+        for (long i = 0; i < 100000000000L; i++) {
+            int a = 16;
+        }
+        long l1 = System.currentTimeMillis();
+        System.out.println(l1 - l);
+        long l2 = System.currentTimeMillis();
+        for (long c = 0; c < 100000000000L; c++) {
+            int b = 1 << 4;
+        }
+        long l3 = System.currentTimeMillis();
+        System.out.println(l3 - l2);
+    }
+
+    private static void m36() throws InterruptedException {
         StopWatch clock = new StopWatch();
         for (int i = 0; i < 4; i++) {
             clock.start();
@@ -65,23 +80,19 @@ public class Test {
         System.out.println(clock.getTotalTimeMillis());
     }
 
-    private static void m35() {
+    private static void m35() throws Exception {
         LinkedList<Integer> integers = new LinkedList<>();
-        LinkedList<Integer> l2 = new LinkedList<>();
-        for (int i = 0; i < 9999; i++) {
+        LinkedList<String> l2 = new LinkedList<>();
+        for (int i = 0; i < 99; i++) {
             integers.add(i);
         }
 
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         integers.parallelStream()
                 .forEach(v -> {
                     Random random = new Random();
-                    int i = random.nextInt();
-                    l2.add(i);
+                    l2.add("1");
                 });
-        stopWatch.stop();
-        System.out.println(stopWatch.getTotalTimeMillis());
+        System.out.println(JSON.toJSONString(l2));
     }
 
     private static void m34() throws InterruptedException {
