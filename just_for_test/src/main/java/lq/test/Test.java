@@ -1,10 +1,13 @@
 package lq.test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
@@ -17,14 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -55,6 +51,22 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        SyncAreaManagersAuth event = new SyncAreaManagersAuth();
+        event.setActivityId(123L);
+        event.setAreaId(234L);
+        event.setAddSet(Sets.newHashSet("pin1","pin2"));
+        event.setDelSet(Sets.newHashSet("pin3","pin4"));
+
+        String eventId = "UUID_" + UUID.randomUUID().toString().replaceAll("-", "");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sendTime", FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss.SSS").format(System.currentTimeMillis()));
+        jsonObject.put("eventType", "EVENT_TYPE");
+        jsonObject.put("data", JSONObject.toJSONStringWithDateFormat(event, "yyyy-MM-dd HH:mm:ss"));
+        jsonObject.put("eventId", eventId);
+        System.out.println(jsonObject.toJSONString());
+    }
+
+    private static void m37() {
         long l = System.currentTimeMillis();
         for (long i = 0; i < 100000000000L; i++) {
             int a = 16;
