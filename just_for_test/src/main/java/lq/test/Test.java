@@ -11,6 +11,7 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Field;
@@ -45,7 +46,10 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
-        m38();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        System.out.println("timestamp = " + timestamp);
+        String sign = DigestUtils.md5DigestAsHex(("actcenter" + "3E5DA600DF03665A85E66E276EECAD7B" + timestamp).getBytes()).toUpperCase();
+        System.out.println("sign = " + sign);
     }
 
     private static void m38() {
