@@ -21,13 +21,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread", "unused"})
@@ -51,11 +45,15 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        m38();
+    }
+
+    private static void m38() {
         SyncAreaManagersAuth event = new SyncAreaManagersAuth();
         event.setActivityId(123L);
         event.setAreaId(234L);
-        event.setAddSet(Sets.newHashSet("pin1","pin2"));
-        event.setDelSet(Sets.newHashSet("pin3","pin4"));
+        event.setAddSet(Sets.newHashSet("pin1", "pin2"));
+        event.setDelSet(Sets.newHashSet("pin3", "pin4"));
 
         String eventId = "UUID_" + UUID.randomUUID().toString().replaceAll("-", "");
         JSONObject jsonObject = new JSONObject();
