@@ -46,6 +46,11 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        Bean bean = new Bean();
+        System.out.println("JSON.toJSONString(bea) = " + JSON.toJSONString(bean));
+    }
+
+    private static void m39() {
         String timestamp = String.valueOf(System.currentTimeMillis());
         System.out.println("timestamp = " + timestamp);
         String sign = DigestUtils.md5DigestAsHex(("actcenter" + "3E5DA600DF03665A85E66E276EECAD7B" + timestamp).getBytes()).toUpperCase();
