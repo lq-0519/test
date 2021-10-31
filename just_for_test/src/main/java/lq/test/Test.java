@@ -46,6 +46,12 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        Integer i = 200;
+        int a = 200;
+        System.out.println(i.equals(a));
+    }
+
+    private static void m40() {
         Bean bean = new Bean();
         System.out.println("JSON.toJSONString(bea) = " + JSON.toJSONString(bean));
     }
