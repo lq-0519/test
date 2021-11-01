@@ -3,7 +3,6 @@ package lq.test;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author liqian477
@@ -11,6 +10,15 @@ import java.util.List;
  */
 @Data
 public class BeanSource implements Serializable {
+
+    private static final long serialVersionUID = -65853199328056047L;
     private String name;
-    private List<String> names;
+    private Data data;
+
+    @lombok.Data
+    static class Data implements Serializable {
+
+        private static final long serialVersionUID = -8626807112072660643L;
+        private String s;
+    }
 }

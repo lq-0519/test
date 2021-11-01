@@ -47,6 +47,34 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        BeanSource beanSource = new BeanSource();
+        beanSource.setName("123");
+        BeanSource.Data data = new BeanSource.Data();
+        data.setS("345");
+        beanSource.setData(data);
+
+        String s = JSON.toJSONString(beanSource);
+        BeanTarget beanTarget = JSON.parseObject(s, BeanTarget.class);
+        System.out.println(JSON.toJSONString(beanTarget));
+
+    }
+
+    private static void generateMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("CJ_LISTEN_TBSJD_HCHDBM", "617a440f485bb30087367a3e");
+        map.put("CJ_LISTEN_TBSJD_ZCHDBM", "617a43ffdf52590077a288af");
+        map.put("CJ_LISTEN_TBSJD_SPXXWH", "617a44349d3609007946c860");
+        map.put("CJ_LISTEN_TBSJD_SCGL", "617a4448485bb30087367a45");
+        map.put("CJ_LISTEN_TBSJD_XGSJCK", "617a446285f705007c39bc84");
+        map.put("CJ_LISTEN_TBSJD_BZZX", "617a4488c899ed007a685edf");
+        map.put("CJ_LISTEN_YXHD_GZT", "6172a6ed8729b700806eaf30");
+        map.put("CJ_LISTEN_YXHD_CJHD", "6172835ce3e9e8007b84cce0");
+        map.put("CJ_LISTEN_TBSJD_ZSDCBM", "617a43eac899ed007a685ed4");
+        String s = JSON.toJSONString(map);
+        System.out.println(s);
+    }
+
+    private static void m43() {
         String s = "{}";
         Map<String, String> map = JSON.parseObject(s, Map.class);
         System.out.println(JSON.toJSONString(map));
@@ -225,7 +253,6 @@ public class Test {
         BeanSource beanSource = new BeanSource();
         beanSource.setName("123");
         ArrayList<String> names = Lists.newArrayList("1", "2", "3");
-        beanSource.setNames(names);
         BeanTarget beanTarget = new BeanTarget();
         BeanUtils.copyProperties(beanSource, beanTarget);
         System.out.println(JSON.toJSONString(beanTarget));

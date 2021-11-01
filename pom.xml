@@ -145,5 +145,12 @@
             <version>1.2.70</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jd.marketing.activity.common</groupId>
+            <artifactId>marketing-activity-common-tool</artifactId>
+            <version>3.0.3-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 </project>
