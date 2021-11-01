@@ -47,6 +47,14 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        String s = "{}";
+        Map<String, String> map = JSON.parseObject(s, Map.class);
+        System.out.println(JSON.toJSONString(map));
+        String o = map.get("1");
+        System.out.println(o);
+    }
+
+    private static void m42() {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
 //设置加密密钥
         textEncryptor.setPassword("qianqian");
