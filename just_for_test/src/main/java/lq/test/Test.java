@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
@@ -46,6 +47,15 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+//设置加密密钥
+        textEncryptor.setPassword("qianqian");
+//加密信息
+        String encryptedText = textEncryptor.encrypt("123");
+        System.out.println("encryptedText:" + encryptedText);
+    }
+
+    private static void m41() {
         Integer i = 200;
         int a = 200;
         System.out.println(i.equals(a));
