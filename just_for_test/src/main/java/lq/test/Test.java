@@ -47,6 +47,14 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        BeanSource beanSource = new BeanSource();
+        beanSource.setAge(10);
+        BeanTarget beanTarget = new BeanTarget();
+        BeanUtils.copyProperties(beanSource, beanTarget);
+        System.out.println(JSON.toJSONString(beanTarget));
+    }
+
+    private static void m45() {
         String s = JSON.toJSONString(null);
         System.out.println("s = " + s);
         Man man = JSON.parseObject(s, Man.class);
