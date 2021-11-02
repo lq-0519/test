@@ -14,6 +14,7 @@ public class BeanSource implements Serializable {
     private static final long serialVersionUID = -65853199328056047L;
     private String name;
     private Data data;
+    private Integer age;
 
     @lombok.Data
     static class Data implements Serializable {

@@ -47,6 +47,13 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        String s = JSON.toJSONString(null);
+        System.out.println("s = " + s);
+        Man man = JSON.parseObject(s, Man.class);
+        System.out.println("JSON.toJSONString(man) = " + JSON.toJSONString(man));
+    }
+
+    private static void m44() {
         BeanSource beanSource = new BeanSource();
         beanSource.setName("123");
         BeanSource.Data data = new BeanSource.Data();
@@ -56,7 +63,6 @@ public class Test {
         String s = JSON.toJSONString(beanSource);
         BeanTarget beanTarget = JSON.parseObject(s, BeanTarget.class);
         System.out.println(JSON.toJSONString(beanTarget));
-
     }
 
     private static void generateMap() {
