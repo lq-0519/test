@@ -22,8 +22,22 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread", "unused"})
@@ -47,6 +61,55 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
+        HashMap<String, Scene> sceneHashMap = new HashMap<>();
+        sceneHashMap.put("CJ_LISTEN_TB_SP", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_ZZ", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_FP", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_BM", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_SH", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_SJZX", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_CJHD", new Scene("", Lists.newArrayList(1)));
+        sceneHashMap.put("CJ_LISTEN_TB_PLBM", new Scene("", Lists.newArrayList(1, 2)));
+        sceneHashMap.put("CJ_LISTEN_TB_BDTSC", new Scene("", Lists.newArrayList(1, 2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_GFYXHD", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_HYHD", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_HCHDBM", new Scene("617a440f485bb30087367a3e", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_ZCHDBM", new Scene("617a43ffdf52590077a288af", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_SCGL", new Scene("617a4448485bb30087367a45", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_XGSJ", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_PLBM", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_SPXXWH", new Scene("617a44349d3609007946c860", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_ZSDCBM", new Scene("617a43eac899ed007a685ed4", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_GFHDXQ", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_BZZX", new Scene("617a4488c899ed007a685edf", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_SJGL", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_DBSX", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_HDRL", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_SJGZT", new Scene("", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_TBSJD_XGSJCK", new Scene("617a446285f705007c39bc84", Lists.newArrayList(2)));
+        sceneHashMap.put("CJ_LISTEN_YXHD_FPHDZY", new Scene("61728718dcdec00082ac54c6", Lists.newArrayList(1, 3)));
+        sceneHashMap.put("CJ_LISTEN_YXHD_BMGJJSH", new Scene("61728753dcdec00082ac54ce", Lists.newArrayList(1, 3)));
+        sceneHashMap.put("CJ_LISTEN_YXHD_HCHDBM", new Scene("617287e9fb2734008cbebff4", Lists.newArrayList(1, 3)));
+        String s = JSON.toJSONString(sceneHashMap);
+        System.out.println("s = " + s);
+        //noinspection unchecked
+        Map<String, Object> map = JSON.parseObject(s, Map.class);
+        Map<String, Scene> map1 = new HashMap<>();
+        map.forEach((scene, sceneInfo) -> {
+            map1.put(scene, JSON.parseObject(JSON.toJSONString(sceneInfo), Scene.class));
+        });
+        System.out.println("map1 = " + map1);
+    }
+
+    private static void m47() {
+        ArrayList<ScoreItemVO> scoreItemVOS = new ArrayList<>();
+        scoreItemVOS.add(new ScoreItemVO("123", 2));
+        scoreItemVOS.add(new ScoreItemVO("cvb", 4));
+        String s = JSON.toJSONString(scoreItemVOS);
+        System.out.println(s);
+    }
+
+    private static void m46() {
         BeanSource beanSource = new BeanSource();
         beanSource.setAge(10);
         BeanTarget beanTarget = new BeanTarget();
@@ -75,15 +138,6 @@ public class Test {
 
     private static void generateMap() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("CJ_LISTEN_TBSJD_HCHDBM", "617a440f485bb30087367a3e");
-        map.put("CJ_LISTEN_TBSJD_ZCHDBM", "617a43ffdf52590077a288af");
-        map.put("CJ_LISTEN_TBSJD_SPXXWH", "617a44349d3609007946c860");
-        map.put("CJ_LISTEN_TBSJD_SCGL", "617a4448485bb30087367a45");
-        map.put("CJ_LISTEN_TBSJD_XGSJCK", "617a446285f705007c39bc84");
-        map.put("CJ_LISTEN_TBSJD_BZZX", "617a4488c899ed007a685edf");
-        map.put("CJ_LISTEN_YXHD_GZT", "6172a6ed8729b700806eaf30");
-        map.put("CJ_LISTEN_YXHD_CJHD", "6172835ce3e9e8007b84cce0");
-        map.put("CJ_LISTEN_TBSJD_ZSDCBM", "617a43eac899ed007a685ed4");
         String s = JSON.toJSONString(map);
         System.out.println(s);
     }
