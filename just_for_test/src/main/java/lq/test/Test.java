@@ -61,7 +61,53 @@ public class Test {
     static Random random = new Random(0);
 
     public static void main(String[] args) throws Exception {
-        ResultVO<String> stringResultVO = new ResultVO<>(true, "url", null, "message");
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            BeanHasInner beanHasInner = new BeanHasInner();
+            BeanHasInner.Inner inner = new BeanHasInner.Inner();
+            inner.setAge(1);
+            beanHasInner.setInner(inner);
+            System.out.println("111  JSON.toJSONString(beanHasInner) = " + JSON.toJSONString(beanHasInner));
+
+        }).start();
+
+        new Thread(() -> {
+
+            BeanHasInner beanHasInner = new BeanHasInner();
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("222  JSON.toJSONString(beanHasInner) = " + JSON.toJSONString(beanHasInner));
+            BeanHasInner.Inner inner = new BeanHasInner.Inner();
+            inner.setAge(2);
+            beanHasInner.setInner(inner);
+            System.out.println("333  JSON.toJSONString(beanHasInner.getInner()) = " + JSON.toJSONString(beanHasInner.getInner()));
+        }).start();
+    }
+
+    private static void m54() {
+        OptionBean optionBean = new OptionBean();
+        optionBean.setSs(new ArrayList<>());
+        String s = Optional.ofNullable(optionBean)
+                .map(OptionBean::getSs)
+                .filter(v -> v.size() == 1)
+                .map(v -> v.get(0))
+                .orElse(null);
+        System.out.println("s = " + s);
+    }
+
+    private static void m53() {
+        QuestionnaireConfigVO questionnaireConfigVO = new QuestionnaireConfigVO();
+        questionnaireConfigVO.setJumpUrl("urk");
+        questionnaireConfigVO.setName("name");
+
+        ResultVO<String> stringResultVO = new ResultVO<>(true, JSON.toJSONString(questionnaireConfigVO), null, "message");
         System.out.println("JSON.toJSONString(stringResultVO) = " + JSON.toJSONString(stringResultVO));
     }
 
