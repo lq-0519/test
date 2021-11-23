@@ -18,7 +18,7 @@ public class BeanTarget implements Serializable {
     private static final long serialVersionUID = 5550314347431701134L;
     private String name;
     //    private Data data;
-    private Integer age;
+    private int age;
 
 //    @lombok.Data
 //    @AllArgsConstructor

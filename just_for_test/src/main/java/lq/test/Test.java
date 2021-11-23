@@ -78,13 +78,21 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        ArrayList<BeanSource> beanSources = new ArrayList<>();
+        beanSources.add(new BeanSource("1", 1));
+        beanSources.add(new BeanSource("2", 2));
+        beanSources.add(new BeanSource("3", 3));
+        System.out.println("JSON.toJSONString(beanSources) = " + JSON.toJSONString(beanSources));
+        List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
+        System.out.println("JSON.toJSONString(beanTargets) = " + JSON.toJSONString(beanTargets));
+    }
+
+    private static void m62() {
         BeanSource beanSource = new BeanSource();
         beanSource.setName("s");
         System.out.println("JSON.toJSONString(beanSource) = " + JSON.toJSONString(beanSource));
-        BeanTarget beanTarget = new BeanTarget();
-        BeanUtils.copyProperties(beanSource, beanTarget);
+        BeanTarget beanTarget = BeanConverter.convert(BeanTarget.class, beanSource);
         System.out.println("JSON.toJSONString(beanTarget) = " + JSON.toJSONString(beanTarget));
-
     }
 
     private static void m61() {
