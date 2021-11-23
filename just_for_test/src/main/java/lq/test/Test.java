@@ -6,6 +6,15 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.jd.marketing.activity.common.tool.BeanConverter;
+import lq.test.bean1.BeanA;
+import lq.test.bean1.BeanB;
+import lq.test.bean1.BeanInnerA;
+import lq.test.inner.bean.BeanSource;
+import lq.test.inner.bean.BeanTarget;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
@@ -18,12 +27,16 @@ import org.springframework.util.StopWatch;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,7 +73,94 @@ public class Test {
 
     static Random random = new Random(0);
 
+    List<String> stringList = new ArrayList();
+
+    List<Integer> integerList = new ArrayList();
+
     public static void main(String[] args) throws Exception {
+        BeanSource beanSource = new BeanSource();
+        beanSource.setName("s");
+        System.out.println("JSON.toJSONString(beanSource) = " + JSON.toJSONString(beanSource));
+        BeanTarget beanTarget = new BeanTarget();
+        BeanUtils.copyProperties(beanSource, beanTarget);
+        System.out.println("JSON.toJSONString(beanTarget) = " + JSON.toJSONString(beanTarget));
+
+    }
+
+    private static void m61() {
+        ArrayList<BeanSource> beanSources = new ArrayList<>();
+//        beanSources.add(new BeanSource("source1", new BeanSource.Data("s1"), 1));
+//        beanSources.add(new BeanSource("source2", new BeanSource.Data("s2"), 2));
+//        beanSources.add(new BeanSource("source3", new BeanSource.Data("s3"), 3));
+        System.out.println("JSON.toJSONString(beanSources) = " + JSON.toJSONString(beanSources));
+        List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
+        System.out.println("JSON.toJSONString(beanTargets) = " + JSON.toJSONString(beanTargets));
+    }
+
+    private static void m60() {
+        ArrayList<Object> objects = new ArrayList<>();
+        objects.add(null);
+        objects.add(new Object());
+        objects.add(null);
+        System.out.println("JSON.toJSONString(objects) = " + JSON.toJSONString(objects));
+    }
+
+    private static void m59() throws NoSuchFieldException {
+        Field stringListField = Test.class.getDeclaredField("stringList");
+
+        ParameterizedType stringListType = (ParameterizedType) stringListField.getGenericType();
+
+        Class stringListClass = (Class) stringListType.getActualTypeArguments()[0];
+
+        System.out.println(stringListClass); // class java.lang.String.
+
+        Field integerListField = Test.class.getDeclaredField("integerList");
+
+        ParameterizedType integerListType = (ParameterizedType) integerListField.getGenericType();
+
+        Class integerListClass = (Class) integerListType.getActualTypeArguments()[0];
+
+        System.out.println(integerListClass); // class java.lang.Integer.
+    }
+
+    private static void m58() {
+        BeanSource beanSource = new BeanSource();
+        beanSource.setName("source");
+        beanSource.setAge(1);
+//        beanSource.setData(Lists.newArrayList(new BeanSource.Data("1"), new BeanSource.Data("2")));
+        System.out.println("JSON.toJSONString(beanSource) = " + JSON.toJSONString(beanSource));
+        BeanTarget beanTarget = BeanConverter.convert(BeanTarget.class, beanSource);
+        System.out.println("JSON.toJSONString(beanTarget) = " + JSON.toJSONString(beanTarget));
+    }
+
+    private static void m57() {
+        BeanA beanA = new BeanA();
+        beanA.setName("A");
+        BeanInnerA beanInnerA = new BeanInnerA();
+        beanInnerA.setAge(1);
+        beanA.setInner(beanInnerA);
+        System.out.println("JSON.toJSONString(beanA) = " + JSON.toJSONString(beanA));
+
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+        mapperFactory.classMap(BeanB.class, BeanA.class).byDefault().register();
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        BeanB beanB = mapperFacade.map(beanA, BeanB.class);
+        System.out.println("JSON.toJSONString(beanB) = " + JSON.toJSONString(beanB));
+    }
+
+    private static void m56() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date parse = null;
+        try {
+            parse = sdf.parse("");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("parse = " + parse);
+    }
+
+    private static void m55() {
         new Thread(() -> {
             try {
                 TimeUnit.SECONDS.sleep(3);
@@ -198,9 +298,9 @@ public class Test {
     private static void m44() {
         BeanSource beanSource = new BeanSource();
         beanSource.setName("123");
-        BeanSource.Data data = new BeanSource.Data();
-        data.setS("345");
-        beanSource.setData(data);
+//        BeanSource.Data data = new BeanSource.Data();
+//        data.setS("345");
+//        beanSource.setData(data);
 
         String s = JSON.toJSONString(beanSource);
         BeanTarget beanTarget = JSON.parseObject(s, BeanTarget.class);
