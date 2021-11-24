@@ -12,9 +12,6 @@ import lq.test.bean1.BeanB;
 import lq.test.bean1.BeanInnerA;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
@@ -77,7 +74,7 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        m60();
+        m57();
     }
 
     private static void m63() {
@@ -135,11 +132,7 @@ public class Test {
         beanInnerA.setAge(1);
         beanA.setInner(beanInnerA);
         System.out.println("JSON.toJSONString(beanA) = " + JSON.toJSONString(beanA));
-
-        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(BeanB.class, BeanA.class).byDefault().register();
-        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        BeanB beanB = mapperFacade.map(beanA, BeanB.class);
+        BeanB beanB = BeanConverter.convert(BeanB.class, beanA);
         System.out.println("JSON.toJSONString(beanB) = " + JSON.toJSONString(beanB));
     }
 
