@@ -27,7 +27,6 @@ import org.springframework.util.StopWatch;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -78,6 +77,10 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        m60();
+    }
+
+    private static void m63() {
         ArrayList<BeanSource> beanSources = new ArrayList<>();
         beanSources.add(new BeanSource("1", 1));
         beanSources.add(new BeanSource("2", 2));
@@ -111,24 +114,8 @@ public class Test {
         objects.add(new Object());
         objects.add(null);
         System.out.println("JSON.toJSONString(objects) = " + JSON.toJSONString(objects));
-    }
-
-    private static void m59() throws NoSuchFieldException {
-        Field stringListField = Test.class.getDeclaredField("stringList");
-
-        ParameterizedType stringListType = (ParameterizedType) stringListField.getGenericType();
-
-        Class stringListClass = (Class) stringListType.getActualTypeArguments()[0];
-
-        System.out.println(stringListClass); // class java.lang.String.
-
-        Field integerListField = Test.class.getDeclaredField("integerList");
-
-        ParameterizedType integerListType = (ParameterizedType) integerListField.getGenericType();
-
-        Class integerListClass = (Class) integerListType.getActualTypeArguments()[0];
-
-        System.out.println(integerListClass); // class java.lang.Integer.
+        List<Object> objects1 = BeanConverter.convertToList(Object.class, objects);
+        System.out.println("JSON.toJSONString(objects1) = " + JSON.toJSONString(objects1));
     }
 
     private static void m58() {
