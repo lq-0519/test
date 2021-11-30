@@ -20,6 +20,37 @@ public class BeanTarget implements Serializable {
     //    private Data data;
     private int age;
 
+    public static final class Builder {
+        private String name;
+        //    private Data data;
+        private int age;
+
+        private Builder() {
+        }
+
+        public static Builder aBeanTarget() {
+            return new Builder();
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public BeanTarget build() {
+            BeanTarget beanTarget = new BeanTarget();
+            beanTarget.setName(name);
+            beanTarget.setAge(age);
+            return beanTarget;
+        }
+    }
+
+
 //    @lombok.Data
 //    @AllArgsConstructor
 //    @NoArgsConstructor

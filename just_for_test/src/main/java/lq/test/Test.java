@@ -7,9 +7,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.jd.marketing.activity.common.tool.BeanConverter;
-import lq.test.bean1.BeanA;
-import lq.test.bean1.BeanB;
-import lq.test.bean1.BeanInnerA;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -74,7 +71,17 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        m57();
+        BeanTarget build = BeanTarget.Builder.aBeanTarget()
+                .age(1)
+                .name("143")
+                .build();
+    }
+
+    private static void m64() {
+        String s = "{'erpNo':'linjiayu8'}";
+//        String s = "";
+        ActivityQueryInfo activityQueryInfo = JSON.parseObject(s, ActivityQueryInfo.class);
+        System.out.println("JSON.toJSONString(activityQueryInfo) = " + JSON.toJSONString(activityQueryInfo));
     }
 
     private static void m63() {
@@ -126,14 +133,14 @@ public class Test {
     }
 
     private static void m57() {
-        BeanA beanA = new BeanA();
-        beanA.setName("A");
-        BeanInnerA beanInnerA = new BeanInnerA();
-        beanInnerA.setAge(1);
-        beanA.setInner(beanInnerA);
-        System.out.println("JSON.toJSONString(beanA) = " + JSON.toJSONString(beanA));
-        BeanB beanB = BeanConverter.convert(BeanB.class, beanA);
-        System.out.println("JSON.toJSONString(beanB) = " + JSON.toJSONString(beanB));
+//        BeanA beanA = new BeanA();
+//        beanA.setName("A");
+//        BeanInnerA beanInnerA = new BeanInnerA();
+//        beanInnerA.setAge(1);
+//        beanA.setInner(beanInnerA);
+//        System.out.println("JSON.toJSONString(beanA) = " + JSON.toJSONString(beanA));
+//        BeanB beanB = BeanConverter.convert(BeanB.class, beanA);
+//        System.out.println("JSON.toJSONString(beanB) = " + JSON.toJSONString(beanB));
     }
 
     private static void m56() {
