@@ -71,10 +71,7 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        BeanTarget build = BeanTarget.Builder.aBeanTarget()
-                .age(1)
-                .name("143")
-                .build();
+m60();
     }
 
     private static void m64() {
