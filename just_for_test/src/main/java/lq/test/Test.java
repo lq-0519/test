@@ -71,7 +71,21 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-m60();
+        m61();
+    }
+
+    private static void m66() {
+        WhiteBackgroundRpcQuery whiteBackgroundRpcQuery = new WhiteBackgroundRpcQuery();
+        whiteBackgroundRpcQuery.setTemplate_id("61a9d8bb6abe4579522cae61");
+        whiteBackgroundRpcQuery.setImages(Lists.newArrayList(new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/205279/23/16690/305142/61a8667aE913f78be/314cdcf9e5dd3766.png")));
+        whiteBackgroundRpcQuery.setNeed_matting(true);
+        System.out.println(JSON.toJSONString(whiteBackgroundRpcQuery));
+    }
+
+    private static void m65() {
+        String s = "1230123.1";
+        System.out.println(NumberUtils.isNumber(s));
+        System.out.println(NumberUtils.isDigits(s));
     }
 
     private static void m64() {
@@ -101,12 +115,16 @@ m60();
 
     private static void m61() {
         ArrayList<BeanSource> beanSources = new ArrayList<>();
-//        beanSources.add(new BeanSource("source1", new BeanSource.Data("s1"), 1));
-//        beanSources.add(new BeanSource("source2", new BeanSource.Data("s2"), 2));
-//        beanSources.add(new BeanSource("source3", new BeanSource.Data("s3"), 3));
-        System.out.println("JSON.toJSONString(beanSources) = " + JSON.toJSONString(beanSources));
-        List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
-        System.out.println("JSON.toJSONString(beanTargets) = " + JSON.toJSONString(beanTargets));
+        beanSources.add(new BeanSource("source1", 1));
+        beanSources.add(new BeanSource("source2", 2));
+        beanSources.add(new BeanSource("source3", 3));
+        for (int i = 0; i < 40; i++) {
+            new Thread(() -> {
+                while (true) {
+                    List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
+                }
+            }).start();
+        }
     }
 
     private static void m60() {
