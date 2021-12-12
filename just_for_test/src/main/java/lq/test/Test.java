@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import com.jd.marketing.activity.common.tool.BeanConverter;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
@@ -71,7 +72,28 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        m61();
+        String s = null;
+        String[] split = StringUtils.split(s, ",");
+        List<String> strings = Arrays.asList(split);
+    }
+
+    private static void m68() {
+        HashMap<String, String> stringStringHashMap = new HashMap<>(2);
+        stringStringHashMap.put("1", "1");
+        stringStringHashMap.put("2", "1");
+        stringStringHashMap.put("3", "1");
+        stringStringHashMap.put("4", "1");
+        int size = stringStringHashMap.size();
+        System.out.println("size = " + size);
+    }
+
+    private static void m67() {
+        ArrayList<Long> objects = new ArrayList<>();
+        objects.add(123L);
+        objects.add(null);
+        for (Long object : objects) {
+            BigDecimal bigDecimal = BigDecimal.valueOf(object);
+        }
     }
 
     private static void m66() {
