@@ -9,16 +9,17 @@ import com.google.common.collect.Sets;
 import com.jd.marketing.activity.common.tool.BeanConverter;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.jasypt.util.text.BasicTextEncryptor;
+import org.msgpack.MessagePack;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StopWatch;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -72,9 +73,89 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        String s = null;
-        String[] split = StringUtils.split(s, ",");
-        List<String> strings = Arrays.asList(split);
+        try {
+            User user = new User();
+            user.setpName("source");
+
+            ArrayList<User> users = new ArrayList<>();
+            User user1 = new User();
+            user1.setpName("1");
+            users.add(user1);
+            user.setUsers(users);
+
+            User target = new User();
+            BeanUtils.copyProperties(user, target);
+            MessagePack messagePack = new MessagePack();
+            byte[] raw = messagePack.write(target);
+            User read = messagePack.read(raw, User.class);
+            System.out.println(read);//输出：{"pId":9527,"pName":"华安","isMarry":true}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void m74() {
+        ArrayList<Integer> objects = new ArrayList<>();
+        objects.add(1);
+        objects.add(2);
+        objects.add(3);
+        objects.add(4);
+        objects.add(5);
+        objects.add(6);
+        objects.add(7);
+        List<Integer> integers = objects.subList(0, 2);
+        System.out.println("integers = " + integers);
+    }
+
+    private static void m73() {
+        BeanDouble beanDouble = new BeanDouble();
+        beanDouble.setName("out");
+        ArrayList<BeanDouble> beanDoubles = new ArrayList<>();
+        beanDoubles.add(new BeanDouble("in 1", null));
+        beanDoubles.add(new BeanDouble("in 2", null));
+        beanDoubles.add(new BeanDouble("in 3", null));
+        beanDouble.setBeanDoubles(beanDoubles);
+        BeanDouble beanDouble1 = new BeanDouble();
+        System.out.println("JSON.toJSONString(beanDouble) = " + JSON.toJSONString(beanDouble));
+        BeanUtils.copyProperties(beanDouble, beanDouble1);
+        System.out.println("JSON.toJSONString(beanDouble1) = " + JSON.toJSONString(beanDouble1));
+    }
+
+    private static void m72() throws InterruptedException {
+        m69();
+        for (int i = 0; i < 10; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println("i111 = " + i);
+        }
+    }
+
+    private static void m71() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(5);
+        System.out.println("1");
+        ArrayList<Bean> beans = new ArrayList<>();
+        while (true) {
+            TimeUnit.MICROSECONDS.sleep(100);
+            System.out.println(2);
+            beans.add(new Bean());
+        }
+    }
+
+    private static void m70() {
+        ArrayList<Bean> beans = new ArrayList<>();
+        while (true) {
+            beans.add(new Bean());
+        }
+    }
+
+    private static void m69() {
+        for (int i = 0; i < 10; i++) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("i = " + i);
+        }
     }
 
     private static void m68() {
@@ -140,9 +221,14 @@ public class Test {
         beanSources.add(new BeanSource("source1", 1));
         beanSources.add(new BeanSource("source2", 2));
         beanSources.add(new BeanSource("source3", 3));
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 20; i++) {
             new Thread(() -> {
                 while (true) {
+                    try {
+                        TimeUnit.MICROSECONDS.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
                 }
             }).start();
