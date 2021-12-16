@@ -73,6 +73,22 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        m61();
+    }
+
+    private static void m76() {
+        Class<Man> manClass = Man.class;
+        String canonicalName = manClass.getCanonicalName();
+        String name = manClass.getName();
+        String simpleName = manClass.getSimpleName();
+        String typeName = manClass.getTypeName();
+        System.out.println("typeName = " + typeName);
+        System.out.println("simpleName = " + simpleName);
+        System.out.println("name = " + name);
+        System.out.println("canonicalName = " + canonicalName);
+    }
+
+    private static void m75() {
         try {
             User user = new User();
             user.setpName("source");
@@ -221,15 +237,16 @@ public class Test {
         beanSources.add(new BeanSource("source1", 1));
         beanSources.add(new BeanSource("source2", 2));
         beanSources.add(new BeanSource("source3", 3));
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 100; i++) {
             new Thread(() -> {
                 while (true) {
-                    try {
-                        TimeUnit.MICROSECONDS.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        TimeUnit.MICROSECONDS.sleep(5);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     List<BeanTarget> beanTargets = BeanConverter.convertToList(BeanTarget.class, beanSources);
+//                    List<BeanTarget> beanTargets = BeanConverter.convertToListV2(BeanTarget.class, beanSources);
                 }
             }).start();
         }

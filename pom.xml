@@ -148,7 +148,7 @@
         <dependency>
             <groupId>com.jd.marketing.activity.common</groupId>
             <artifactId>marketing-activity-common-tool</artifactId>
-            <version>lq-bean-utils-SNAPSHOT</version>
+            <version>bean-convert-lq-SNAPSHOT</version>
         </dependency>
 
         <dependency>
