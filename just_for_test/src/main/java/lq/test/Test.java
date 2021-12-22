@@ -73,7 +73,48 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        m61();
+        int i = m80();
+        System.out.println("i = " + i);
+    }
+
+    private static int m80() {
+        int i = 0;
+        try {
+            i++;
+            System.out.println("try");
+            return i;
+        } catch (Exception e) {
+            i++;
+            e.printStackTrace();
+            System.out.println("catch");
+            return i;
+        } finally {
+            i++;
+            System.out.println("finally");
+            return i;
+        }
+    }
+
+    private static void m79() {
+        Date date = new Date();
+        long time = date.getTime();
+        System.out.println("time = " + time);
+    }
+
+    private static void m78() {
+        String x2 = new String("c") + new String("d"); // new String("cd")
+        String x1 = "cd";
+        String intern = x2.intern();
+        System.out.println(intern == x1);
+        System.out.println(x2 == x1);
+    }
+
+    private static void m77() {
+        String s = "李乾";
+        byte[] bytes = s.getBytes();
+        for (byte aByte : bytes) {
+            System.out.println("aByte = " + aByte);
+        }
     }
 
     private static void m76() {
