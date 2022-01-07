@@ -2,6 +2,7 @@ package lq.test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Joiner;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
@@ -73,8 +74,14 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
-        int i = m80();
-        System.out.println("i = " + i);
+        HashMap<String, List<String>> map = new HashMap<>();
+        map.put("all", Lists.newArrayList("id1"));
+        map.put("self", Lists.newArrayList("id3"));
+        map.put("pinGo", Lists.newArrayList("id5"));
+        String s = JSON.toJSONString(map);
+        System.out.println("s = " + s);
+        @SuppressWarnings("unchecked") Map<String, List<String>> map1 = JSON.parseObject(s, Map.class);
+        System.out.println("map1 = " + map1);
     }
 
     private static int m80() {
@@ -236,10 +243,36 @@ public class Test {
 
     private static void m66() {
         WhiteBackgroundRpcQuery whiteBackgroundRpcQuery = new WhiteBackgroundRpcQuery();
-        whiteBackgroundRpcQuery.setTemplate_id("61a9d8bb6abe4579522cae61");
-        whiteBackgroundRpcQuery.setImages(Lists.newArrayList(new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/205279/23/16690/305142/61a8667aE913f78be/314cdcf9e5dd3766.png")));
+        whiteBackgroundRpcQuery.setTemplate_id("614c017f6915792f634a2976");
+        ArrayList<WhiteBackgroundRpcQuery.JfsUrl> images = Lists.newArrayList(
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/205279/23/16690/305142/61a8667aE913f78be/314cdcf9e5dd3766.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/161380/29/28880/970398/61c46dddEc790a8c3/c1486924fdf06743.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/222747/14/6962/279175/61c46e06E7690323b/1d5c51e3da568d15.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/221678/5/6810/183276/61c46e07Eb3242d2d/07102de535c5f8a5.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/135999/17/26944/88636/61c46e09Ed7579976/2831cef6dc4ebf39.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/172506/11/25190/237239/61c46e0aEb8d35bcb/2169912618013e42.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/220847/33/8718/93242/61c46e0eE626a8e6d/014bb5cbe633da7b.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/172474/39/24783/145850/61c46e0fEe65b6303/9344c821e9c54db3.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/173519/7/24658/749383/61c46e7dE98b50467/a5ada2521ea80ac8.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/143453/24/24470/866492/61c46e7fE32fc9072/2bf1572afee07d18.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/170307/13/29207/303167/61c46e81E0f3ed254/e0b7d7804c232aec.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/15744/4/18301/183241/61c46e82Eed110894/4666861a441539f3.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/222616/32/6982/1004311/61c46e85E58890ad6/ff9dbef8504af17a.png"),
+//                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/174762/34/23626/669295/61c46e87E5e4756f4/4dd49581d2491400.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/209179/29/13684/823456/61c46e89Ecde0c522/601ae28762450b31.png"),
+                new WhiteBackgroundRpcQuery.JfsUrl("jfs/t1/220397/26/8776/255819/61c46e8dE684258ad/7f29924a42dfdd67.png")
+        );
+        whiteBackgroundRpcQuery.setImages(images);
         whiteBackgroundRpcQuery.setNeed_matting(true);
         System.out.println(JSON.toJSONString(whiteBackgroundRpcQuery));
+
+        List<String> collect = images.stream()
+                .map(WhiteBackgroundRpcQuery.JfsUrl::getJfs_url)
+                .collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(collect));
+        String join = Joiner.on(",").join(collect);
+        System.out.println(join);
+
     }
 
     private static void m65() {
