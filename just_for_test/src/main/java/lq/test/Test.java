@@ -74,10 +74,25 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        System.in.read();
+        for (int i = 0; i < 1000; i++) {
+            new Thread(() -> {
+                try {
+                    TimeUnit.SECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+            TimeUnit.MILLISECONDS.sleep(500);
+            System.out.println("i = " + (i + 1));
+        }
+    }
+
+    private static void m81() {
         HashMap<String, List<String>> map = new HashMap<>();
-        map.put("all", Lists.newArrayList("id1"));
-        map.put("self", Lists.newArrayList("id3"));
-        map.put("pinGo", Lists.newArrayList("id5"));
+        map.put("all", Lists.newArrayList("CA010711284180664828", "CA120316170979717690", "CA120317112673179653", "CA101315302112013805", "CA101416223453986888"));
+        map.put("self", Lists.newArrayList("CA120317081487587200", "CA120317112673179653"));
+        map.put("pinGo", Lists.newArrayList("CA120317112653963450", "CA120317112628856525"));
         String s = JSON.toJSONString(map);
         System.out.println("s = " + s);
         @SuppressWarnings("unchecked") Map<String, List<String>> map1 = JSON.parseObject(s, Map.class);

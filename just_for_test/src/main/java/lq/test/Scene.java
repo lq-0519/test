@@ -17,4 +17,12 @@ import java.util.List;
 public class Scene implements Serializable {
     private String questionnaireId;
     private List<Integer> sceneComeFromList;
+
+    public int getName() {
+        return 1;
+    }
+
+    public String getName() {
+        return "1";
+    }
 }
