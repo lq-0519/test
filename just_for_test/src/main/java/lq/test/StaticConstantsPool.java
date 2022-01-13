@@ -13,6 +13,9 @@ public class StaticConstantsPool {
     public static void main(String[] args) {
         System.out.println(a);
         System.out.println(s);
+        String[] strings = new String[10];
+//        strings[1]="123";
+        System.out.println(strings.length);
     }
 
     public int inc(int a) {
