@@ -6,7 +6,7 @@ package lq.test;
  */
 public class LittleMan extends Man {
 
-    @Override
+//    @Override
     protected String showName() {
         return "littleMan";
     }

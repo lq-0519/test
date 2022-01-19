@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"ConstantConditions", "AlibabaAvoidManuallyCreateThread", "unused"})
+@SuppressWarnings({"AlibabaAvoidManuallyCreateThread", "unused"})
 public class Test {
 
     /**
@@ -55,6 +54,19 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        Man man = new Man();
+        man.setName("1");
+        man.setManList(Lists.newArrayList(new Man("in1"), new Man("in2"), new Man("in3")));
+        Man out = new Man();
+        BeanUtils.copyProperties(man, out);
+        System.out.println("JSON.toJSONString(man) = " + JSON.toJSONString(man));
+        System.out.println("JSON.toJSONString(out) = " + JSON.toJSONString(out));
+        man.getManList().add(new Man("in4"));
+        System.out.println("JSON.toJSONString(man) = " + JSON.toJSONString(man));
+        System.out.println("JSON.toJSONString(out) = " + JSON.toJSONString(out));
+    }
+
+    private static void m84() {
         ArrayList<MessageTemplateDTO> oldTestList = Lists.newArrayList(
                 new MessageTemplateDTO("APPLY_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
                 new MessageTemplateDTO("CHANGE_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
@@ -85,21 +97,21 @@ public class Test {
         );
 
         ArrayList<MessageTemplateDTO> newTestList = Lists.newArrayList(
-                new MessageTemplateDTO("APPLY_PEND_CHECK", "123"),
-                new MessageTemplateDTO("CHANGE_PEND_CHECK", "123"),
-                new MessageTemplateDTO("PASS_APPLY", "123"),
-                new MessageTemplateDTO("REJECT_APPLY", "123"),
-                new MessageTemplateDTO("VIEW_CHECK_REJECT", "123"),
-                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "123"),
-                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "123"),
-                new MessageTemplateDTO("CHECK_PRESS", "123"),
-                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "123"),
+//                new MessageTemplateDTO("APPLY_PEND_CHECK", "123"),
+//                new MessageTemplateDTO("CHANGE_PEND_CHECK", "123"),
+//                new MessageTemplateDTO("PASS_APPLY", "123"),
+//                new MessageTemplateDTO("REJECT_APPLY", "123"),
+//                new MessageTemplateDTO("VIEW_CHECK_REJECT", "123"),
+//                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "123"),
+//                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "123"),
+//                new MessageTemplateDTO("CHECK_PRESS", "123"),
+//                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "123"),
                 new MessageTemplateDTO("YX_ACTIVITY_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
                 new MessageTemplateDTO("YX_REJECT_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
                 new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
                 new MessageTemplateDTO("CHECK_MATERIAL_DELETED_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
                 new MessageTemplateDTO("APPLY_PRESS_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
-                new MessageTemplateDTO("APPLY_VIEW_CHECK", "111"),
+//                new MessageTemplateDTO("APPLY_VIEW_CHECK", "111"),
                 new MessageTemplateDTO("INVITE_ACTIVITY_APPLY_CHANNEL", "http://test1.hd.jd.com/channel-service/activity/collection-pool-list/pools/roomlist?planCode={plancode}&entry=1&activityId={activityID}&from=acore&hideTab=1&id={activityID}&blockId={areaId}"),
                 new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_CHANNEL", "http://test1.hd.jd.com/channel-service/activity/collection-pool-list/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={plancode}&from=acore&batchId={batchId}"),
                 new MessageTemplateDTO("CHECK_MATERIAL_DELETED_CHANNEL", "http://test1.hd.jd.com/channel-service/activity/collection-pool-list/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={plancode}&from=acore&batchId={batchId}"),
@@ -469,17 +481,6 @@ public class Test {
         System.out.println("JSON.toJSONString(beanTarget) = " + JSON.toJSONString(beanTarget));
     }
 
-    private static void m57() {
-//        BeanA beanA = new BeanA();
-//        beanA.setName("A");
-//        BeanInnerA beanInnerA = new BeanInnerA();
-//        beanInnerA.setAge(1);
-//        beanA.setInner(beanInnerA);
-//        System.out.println("JSON.toJSONString(beanA) = " + JSON.toJSONString(beanA));
-//        BeanB beanB = BeanConverter.convert(BeanB.class, beanA);
-//        System.out.println("JSON.toJSONString(beanB) = " + JSON.toJSONString(beanB));
-    }
-
     private static void m56() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date parse = null;
@@ -490,159 +491,6 @@ public class Test {
         }
 
         System.out.println("parse = " + parse);
-    }
-
-    private static void m55() {
-        new Thread(() -> {
-            try {
-                TimeUnit.SECONDS.sleep(3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            BeanHasInner beanHasInner = new BeanHasInner();
-            BeanHasInner.Inner inner = new BeanHasInner.Inner();
-            inner.setAge(1);
-            beanHasInner.setInner(inner);
-            System.out.println("111  JSON.toJSONString(beanHasInner) = " + JSON.toJSONString(beanHasInner));
-
-        }).start();
-
-        new Thread(() -> {
-
-            BeanHasInner beanHasInner = new BeanHasInner();
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("222  JSON.toJSONString(beanHasInner) = " + JSON.toJSONString(beanHasInner));
-            BeanHasInner.Inner inner = new BeanHasInner.Inner();
-            inner.setAge(2);
-            beanHasInner.setInner(inner);
-            System.out.println("333  JSON.toJSONString(beanHasInner.getInner()) = " + JSON.toJSONString(beanHasInner.getInner()));
-        }).start();
-    }
-
-    private static void m54() {
-        OptionBean optionBean = new OptionBean();
-        optionBean.setSs(new ArrayList<>());
-        String s = Optional.ofNullable(optionBean)
-                .map(OptionBean::getSs)
-                .filter(v -> v.size() == 1)
-                .map(v -> v.get(0))
-                .orElse(null);
-        System.out.println("s = " + s);
-    }
-
-    private static void m53() {
-        QuestionnaireConfigVO questionnaireConfigVO = new QuestionnaireConfigVO();
-        questionnaireConfigVO.setJumpUrl("urk");
-        questionnaireConfigVO.setName("name");
-
-        ResultVO<String> stringResultVO = new ResultVO<>(true, JSON.toJSONString(questionnaireConfigVO), null, "message");
-        System.out.println("JSON.toJSONString(stringResultVO) = " + JSON.toJSONString(stringResultVO));
-    }
-
-    private static void m52() {
-        String s = "123";
-        System.out.println(JSON.toJSONString(s));
-    }
-
-    private static void m51() {
-        String s = "TSECKILL_OBTAIN_RESOURCE_ERP,TSECKILL_CHECK_PASS_SALEMAN,TSECKILL_CHECK_PASS_ERP,SECKILL_SELF_QUALIFICATION_ERP,SECKILL_RULE_NO_CHECK_MIDDLE,SECKILL_RULE_CHCEK_END_TIME_MIDDLE,SECKILL_RULE_APPLY_OPERATE,SECKILL_RULE_APPLY_CHECK_PASS_OPERATE,SECKILL_RELEASE_RESOURCE_ERP,SECKILL_PROMOTION_CHECK_REJECT_SALEMAN,SECKILL_PROMOTION_CHECK_REJECT_MIDDLE,SECKILL_PROMOTION_CHECK_PRESS_ERP,SECKILL_PROMOTION_CHECK_PASS_SALEMAN,SECKILL_PROMOTION_BUILD_FAIL_SALEMAN,SECKILL_PROMOTION_BUILD_FAIL_MIDDLE,SECKILL_OVERDUE_CHECKER,SECKILL_OBTAIN_RESOURCE_ERP,SECKILL_MAIN_POOL_UNPAY_OPERATOR,SECKILL_MAIN_POOL_ASSIGN_RESOURCE_VENDER,SECKILL_ENTER_REJECT_ERP,SECKILL_ENTER_INVITE_ERP,SECKILL_ENTER_FINISH_ERP,SECKILL_DELETE_PROMOTION_SALEMAN,SECKILL_DELETE_PROMOTION_ERP,SECKILL_CHECK_REJECT_SALEMAN,SECKILL_CHECK_REJECT_CHECKER,SECKILL_CHECK_PRESS_ERP,SECKILL_CHECK_PASS_CHECKER,SECKILL_AUCTION_SUCCESS_OPERATOR,SECKILL_AUCTION_PASS_OPERATOR,SECKILL_ADJUST_RESULT_ERP,PSECKILL_PROMOTION_CHECK_PASS_SALEMAN,PSECKILL_INVALID_M_ERP,PSECKILL_INVALID_ERP,PSECKILL_CHECK_REJECT_CERP,PSECKILL_CHECK_REJECT_AERP,PSECKILL_CHECK_PASS_CERP,PSECKILL_CHECK_PASS_AERP,PSECKILL_ACTIVITY_OFFLINE_M_ERP,PSECKILL_ACTIVITY_OFFLINE_ERP,FLASH_BUY_M_CHECK_REJECT_SCHEDULING_ERP,FLASH_BUY_M_CHECK_REJECT_ACTIVITY_ERP,FLASH_BUY_M_CHECK_PASS_ERP,FLASH_BUY_CHECK_REJECT_SCHEDULING_ERP,FLASH_BUY_CHECK_REJECT_ACTIVITY_ERP,FLASH_BUY_CHECK_PASS_ERP,FLASH_BUY_ACTIVITY_M_CHECK_PASS_ERP,FLASH_BUY_ACTIVITY_CHECK_PASS_ERP";
-        String[] split = s.split(",");
-        StringBuilder s2 = new StringBuilder("('");
-        for (String s1 : split) {
-            s2.append(s1).append("','");
-        }
-        System.out.println("s2 = " + s2);
-    }
-
-    private static void m50() {
-        Integer i = null;
-        System.out.println(String.valueOf(i));
-    }
-
-    private static void generateSceneInfoMap() {
-        HashMap<String, Scene> sceneHashMap = new HashMap<>();
-        sceneHashMap.put("CJ_LISTEN_TB_SP", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_ZZ", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_FP", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_BM", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_SH", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_SJZX", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_CJHD", new Scene("", Lists.newArrayList(1)));
-        sceneHashMap.put("CJ_LISTEN_TB_PLBM", new Scene("", Lists.newArrayList(1, 2)));
-        sceneHashMap.put("CJ_LISTEN_TB_BDTSC", new Scene("", Lists.newArrayList(1, 2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_GFYXHD", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_HYHD", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_HCHDBM", new Scene("617a440f485bb30087367a3e", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_ZCHDBM", new Scene("617a43ffdf52590077a288af", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_SCGL", new Scene("617a4448485bb30087367a45", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_XGSJ", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_PLBM", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_SPXXWH", new Scene("617a44349d3609007946c860", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_ZSDCBM", new Scene("617a43eac899ed007a685ed4", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_GFHDXQ", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_BZZX", new Scene("617a4488c899ed007a685edf", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_SJGL", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_DBSX", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_HDRL", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_SJGZT", new Scene("", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_TBSJD_XGSJCK", new Scene("617a446285f705007c39bc84", Lists.newArrayList(2)));
-        sceneHashMap.put("CJ_LISTEN_YXHD_FPHDZY", new Scene("61728718dcdec00082ac54c6", Lists.newArrayList(1, 3)));
-        sceneHashMap.put("CJ_LISTEN_YXHD_BMGJJSH", new Scene("61728753dcdec00082ac54ce", Lists.newArrayList(1, 3)));
-        sceneHashMap.put("CJ_LISTEN_YXHD_HCHDBM", new Scene("617287e9fb2734008cbebff4", Lists.newArrayList(1, 3)));
-        String s = JSON.toJSONString(sceneHashMap);
-        System.out.println("s = " + s);
-        //noinspection unchecked
-        Map<String, Object> map = JSON.parseObject(s, Map.class);
-        Map<String, Scene> map1 = new HashMap<>();
-        map.forEach((scene, sceneInfo) -> {
-            map1.put(scene, JSON.parseObject(JSON.toJSONString(sceneInfo), Scene.class));
-        });
-        System.out.println("map1 = " + map1);
-    }
-
-    private static void m47() {
-        ArrayList<ScoreItemVO> scoreItemVOS = new ArrayList<>();
-        scoreItemVOS.add(new ScoreItemVO("123", 2));
-        scoreItemVOS.add(new ScoreItemVO("cvb", 4));
-        String s = JSON.toJSONString(scoreItemVOS);
-        System.out.println(s);
-    }
-
-    private static void m46() {
-        BeanSource beanSource = new BeanSource();
-        beanSource.setAge(10);
-        BeanTarget beanTarget = new BeanTarget();
-        BeanUtils.copyProperties(beanSource, beanTarget);
-        System.out.println(JSON.toJSONString(beanTarget));
-    }
-
-    private static void m45() {
-        String s = JSON.toJSONString(null);
-        System.out.println("s = " + s);
-        Man man = JSON.parseObject(s, Man.class);
-        System.out.println("JSON.toJSONString(man) = " + JSON.toJSONString(man));
-    }
-
-    private static void m44() {
-        BeanSource beanSource = new BeanSource();
-        beanSource.setName("123");
-//        BeanSource.Data data = new BeanSource.Data();
-//        data.setS("345");
-//        beanSource.setData(data);
-
-        String s = JSON.toJSONString(beanSource);
-        BeanTarget beanTarget = JSON.parseObject(s, BeanTarget.class);
-        System.out.println(JSON.toJSONString(beanTarget));
-    }
-
-    private static void generateMap() {
-        HashMap<String, String> map = new HashMap<>();
-        String s = JSON.toJSONString(map);
-        System.out.println(s);
     }
 
 

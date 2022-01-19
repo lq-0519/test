@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author liqian477
@@ -21,11 +22,10 @@ public class Man implements Serializable {
 
     private String name;
 
+    private List<Man> manList;
+
     public Man(String name) {
         this.name = name;
     }
 
-    protected String showName() {
-        return null;
-    }
 }
