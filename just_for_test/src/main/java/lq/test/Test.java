@@ -48,6 +48,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryLocalVariable", "AlibabaAvoidManuallyCreateThread", "unused"})
 public class Test {
@@ -74,6 +75,92 @@ public class Test {
     List<Integer> integerList = new ArrayList();
 
     public static void main(String[] args) throws Exception {
+        ArrayList<MessageTemplateDTO> oldTestList = Lists.newArrayList(
+                new MessageTemplateDTO("APPLY_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("CHANGE_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("PASS_APPLY", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("REJECT_APPLY", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("VIEW_CHECK_REJECT", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("CHECK_PRESS", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("YX_ACTIVITY_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
+                new MessageTemplateDTO("YX_REJECT_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/registeredMaterials?activityId={activityId}&tab=1&blockId={areaId}&isBookModule=0&planCode={hdPlanCode}&roomId={hdRoomId}"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore"),
+                new MessageTemplateDTO("CHECK_MATERIAL_DELETED_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=2&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore"),
+                new MessageTemplateDTO("APPLY_PRESS_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&from=acore"),
+                new MessageTemplateDTO("APPLY_VIEW_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=1&activityId={activityId}"),
+                null
+        );
+
+        ArrayList<MessageTemplateDTO> newTestList = Lists.newArrayList(
+                new MessageTemplateDTO("APPLY_PEND_CHECK", "123"),
+                new MessageTemplateDTO("CHANGE_PEND_CHECK", "123"),
+                new MessageTemplateDTO("PASS_APPLY", "123"),
+                new MessageTemplateDTO("REJECT_APPLY", "123"),
+                new MessageTemplateDTO("VIEW_CHECK_REJECT", "123"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "123"),
+                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "123"),
+                new MessageTemplateDTO("CHECK_PRESS", "123"),
+                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "123"),
+                new MessageTemplateDTO("YX_ACTIVITY_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
+                new MessageTemplateDTO("YX_REJECT_APPLY", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("CHECK_MATERIAL_DELETED_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("APPLY_PRESS_2_YX", "http://test1.hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
+                new MessageTemplateDTO("APPLY_VIEW_CHECK", "111"),
+                null
+        );
+        ArrayList<MessageTemplateDTO> oldProdList = Lists.newArrayList(
+                new MessageTemplateDTO("APPLY_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("CHANGE_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("PASS_APPLY", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("REJECT_APPLY", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1"),
+                new MessageTemplateDTO("VIEW_CHECK_REJECT", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "http://mc.jd.com/dist/pages/activeEnroll/list/?tab=1&applyId={applyId}&isBookModule=0"),
+                new MessageTemplateDTO("CHECK_PRESS", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
+                new MessageTemplateDTO("YX_ACTIVITY_APPLY", "111"),
+                new MessageTemplateDTO("YX_REJECT_APPLY", "111"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_2_YX", "111"),
+                new MessageTemplateDTO("CHECK_MATERIAL_DELETED_2_YX", "111"),
+                new MessageTemplateDTO("APPLY_PRESS_2_YX", "111"),
+                new MessageTemplateDTO("APPLY_VIEW_CHECK", "111"),
+                null
+        );
+        ArrayList<MessageTemplateDTO> newProdList = Lists.newArrayList(
+                new MessageTemplateDTO("APPLY_PEND_CHECK", "123"),
+                new MessageTemplateDTO("CHANGE_PEND_CHECK", "123"),
+                new MessageTemplateDTO("PASS_APPLY", "123"),
+                new MessageTemplateDTO("REJECT_APPLY", "123"),
+                new MessageTemplateDTO("VIEW_CHECK_REJECT", "123"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_APPLICANT", "123"),
+                new MessageTemplateDTO("APPLY_MATERIAL_DELETED", "123"),
+                new MessageTemplateDTO("CHECK_PRESS", "123"),
+                new MessageTemplateDTO("SYSTEM_AUTO_CHECK_REJECT", "123"),
+                new MessageTemplateDTO("YX_ACTIVITY_APPLY", "https://hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
+                new MessageTemplateDTO("YX_REJECT_APPLY", "https://hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("MATERIAL_SYNC_FAIL_SEND_AUDITOR_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("CHECK_MATERIAL_DELETED_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/auditManagement?type=1&entry=1&activityId={activityId}&blockId={areaId}&planCode={hdPlanCode}&roomId={hdRoomId}&from=acore&batchId={batchId}"),
+                new MessageTemplateDTO("APPLY_PRESS_2_YX", "https://hd.jd.com/activity-manage/merchants/venueDetail/poolList?entry=1&planCode={hdPlanCode}&roomId={hdRoomId}&activityId={activityId}&blockId={areaId}"),
+                new MessageTemplateDTO("APPLY_VIEW_CHECK", "111"),
+                null
+        );
+        System.out.println("oldTestList = " + JSON.toJSONString(oldTestList));
+        System.out.println("newTestList = " + JSON.toJSONString(newTestList));
+        System.out.println("oldProdList = " + JSON.toJSONString(oldProdList));
+        System.out.println("newProdList = " + JSON.toJSONString(newProdList));
+    }
+
+    private static void m83() {
+        Stream.of(new Man("1 "), new Man("2 "), new Man("3 "))
+//                .peek(v -> v.setName(v.getName().trim()))
+                .forEach(v -> System.out.println("v.getName() = " + v.getName()));
+    }
+
+    private static void m82() throws IOException, InterruptedException {
         System.in.read();
         for (int i = 0; i < 1000; i++) {
             new Thread(() -> {

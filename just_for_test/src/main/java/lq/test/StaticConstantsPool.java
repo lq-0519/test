@@ -8,6 +8,12 @@ package lq.test;
  */
 public class StaticConstantsPool {
     static int a = 88;
+
+    static {
+        a = 77;
+        System.out.println("a = " + a);
+    }
+
     static String s = "123";
 
     public static void main(String[] args) {

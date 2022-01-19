@@ -21,6 +21,10 @@ public class Man implements Serializable {
 
     private String name;
 
+    public Man(String name) {
+        this.name = name;
+    }
+
     protected String showName() {
         return null;
     }
