@@ -55,12 +55,7 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         Man man = new Man();
-        man.setName("1");
-        man.setManList(Lists.newArrayList(new Man("in1"), new Man("in2"), new Man("in3")));
-        Man1 man1 = new Man1();
-        BeanUtils.copyProperties(man, man1);
-        System.out.println("JSON.toJSONString(man) = " + JSON.toJSONString(man));
-        System.out.println("JSON.toJSONString(man1) = " + JSON.toJSONString(man1));
+        man.getMessageJsonStr();
     }
 
 
