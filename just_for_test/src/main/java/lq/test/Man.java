@@ -31,8 +31,12 @@ public class Man implements Serializable {
         this.name = name;
     }
 
+    public static void main(String[] args) {
+        getMessageJsonStr();
+    }
 
-    public void getMessageJsonStr() {
+
+    public static void getMessageJsonStr() {
         ArrayList<MessageTemplateDTO> oldTestList = Lists.newArrayList(
                 new MessageTemplateDTO("APPLY_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
                 new MessageTemplateDTO("CHANGE_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),

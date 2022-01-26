@@ -53,9 +53,14 @@ public class Test {
 
     List<Integer> integerList = new ArrayList();
 
+    private static int a;
+
     public static void main(String[] args) throws Exception {
-        Man man = new Man();
-        man.getMessageJsonStr();
+        System.out.println("a = " + a);
+        int[] ints = new int[5];
+        for (int anInt : ints) {
+            System.out.println("anInt = " + anInt);
+        }
     }
 
 
