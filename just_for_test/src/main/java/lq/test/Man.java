@@ -94,6 +94,7 @@ public class Man implements Serializable {
                 new MessageTemplateDTO("APPLY_PRESS", "http://test1.hd.jd.com/activity-manage/myCreate/pools/roomlist?entry=1&activityId={activityId}&from=acore&hideTab=1&id={activityId}&blockId={areaId}"),
                 null
         );
+
         ArrayList<MessageTemplateDTO> oldProdList = Lists.newArrayList(
                 new MessageTemplateDTO("APPLY_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
                 new MessageTemplateDTO("CHANGE_PEND_CHECK", "http://mc.jd.com/dist/pages/activeManage/list/?tab=2&activityId={activityId}"),
