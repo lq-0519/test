@@ -55,12 +55,84 @@ public class Test {
 
     private static int a;
 
+    private static final int THREADS_COUNT = 20;
+    //    public static int race = 0;
+    public static volatile int race = 0;
+
+    public static synchronized void increase() {
+        race++;
+    }
+
     public static void main(String[] args) throws Exception {
-        System.out.println("a = " + a);
-        int[] ints = new int[5];
-        for (int anInt : ints) {
-            System.out.println("anInt = " + anInt);
-        }
+        // 创建一个锁对象
+        Man man = new Man();
+        new Thread(() -> {
+            synchronized (man) {
+                for (int i = 0; i < 100; i++) {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("i = " + i);
+                    if (i == 2) {
+                        // i == 2 时当前线程进入wait状态, 释放锁
+                        try {
+                            man.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }).start();
+        TimeUnit.MILLISECONDS.sleep(10);
+        new Thread(() -> {
+            synchronized (man) {
+                for (int j = 0; j < 100; j++) {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("j = " + j);
+                    if (j == 2) {
+                        // 唤醒其他线程, 但是当前线程仍持有锁
+                        man.notify();
+                    }
+
+                    if (j == 4) {
+                        // 当前线程进入wait状态, 释放锁
+                        try {
+                            man.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private static void m84() {
+        Integer a = 1;
+        Integer a1 = Integer.valueOf(1);
+        Integer b = 2;
+        Integer c = 3;
+        Integer d = 3;
+        Integer e = 321;
+        Integer f = 321;
+        Integer l = 128;
+        Integer h = 128;
+        Long g = 3L;
+        System.out.println(l == h);//f
+        System.out.println(a1 == a);//t
+        System.out.println(c == d);//t
+        System.out.println(e == f);//f
+        System.out.println(c == (a + b));//t
+        System.out.println(c.equals(a + b));//t
+        System.out.println(g == (a + b));//t
+        System.out.println(g.equals(a + b));//f
     }
 
 
