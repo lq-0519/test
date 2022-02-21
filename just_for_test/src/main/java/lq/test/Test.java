@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -64,52 +65,33 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-        // 创建一个锁对象
-        Man man = new Man();
+        // 创建一个信号量
+        Semaphore semaphore = new Semaphore(3);
         new Thread(() -> {
-            synchronized (man) {
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("i = " + i);
-                    if (i == 2) {
-                        // i == 2 时当前线程进入wait状态, 释放锁
-                        try {
-                            man.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            for (int i = 1; i < 100; i++) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("i = " + i);
+                try {
+                    semaphore.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
         TimeUnit.MILLISECONDS.sleep(10);
         new Thread(() -> {
-            synchronized (man) {
-                for (int j = 0; j < 100; j++) {
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("j = " + j);
-                    if (j == 2) {
-                        // 唤醒其他线程, 但是当前线程仍持有锁
-                        man.notify();
-                    }
-
-                    if (j == 4) {
-                        // 当前线程进入wait状态, 释放锁
-                        try {
-                            man.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            for (int j = 0; j < 100; j++) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                System.out.println("j = " + j);
+                semaphore.release();
             }
         }).start();
     }
