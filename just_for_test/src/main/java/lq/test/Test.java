@@ -11,6 +11,7 @@ import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.msgpack.MessagePack;
 import org.springframework.beans.BeanUtils;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -65,6 +66,24 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
+        String s = "123123123123.%s.%s";
+        String a = String.format(s, "a", "%s");
+        System.out.println("a = " + a);
+    }
+
+    private static void m86() {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream("./emails.txt", true);
+            fos.write("123123123".getBytes());
+            fos.write("456456".getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void m85() throws InterruptedException {
         // 创建一个信号量
         Semaphore semaphore = new Semaphore(3);
         new Thread(() -> {
