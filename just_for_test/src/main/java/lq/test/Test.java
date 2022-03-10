@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -66,9 +67,17 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-        String s = "123123123123.%s.%s";
-        String a = String.format(s, "a", "%s");
-        System.out.println("a = " + a);
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND, 0);
+        ca.add(Calendar.DAY_OF_MONTH, 1);
+        Date time = ca.getTime();
+        long l = System.currentTimeMillis();
+        long l1 = time.getTime() - l;
+        System.out.println("l1 = " + l1);
+        Date date = new Date();
     }
 
     private static void m86() {
