@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.jd.marketing.activity.common.tool.BeanConverter;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.msgpack.MessagePack;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +26,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -67,6 +71,64 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
+        OrderByEnum orderByEnum = OrderByEnum.parseOf(null);
+        System.out.println("orderByEnum = " + orderByEnum);
+    }
+
+    private static void m90() throws InterruptedException {
+        Future<Integer> submit = CompletableFuture.supplyAsync(() -> {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("i = " + i);
+            }
+            return 1;
+        });
+        Integer integer = 2;
+        try {
+            integer = submit.get(5, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            System.out.println("异常1");
+        }
+        System.out.println("integer = " + integer);
+
+        TimeUnit.SECONDS.sleep(20);
+    }
+
+    private static void m65() {
+//        String s = "1230123.1";
+        String s = "000123012300012301230001230123000123012300012301230001230123000123012300012301230001230123000123012300012301230001230123000123012300012301230001230123000123012300012301230001230123";
+//        String s = "-0012301231";
+        System.out.println(NumberUtils.isParsable(s));
+        System.out.println(NumberUtils.isDigits(s));
+    }
+
+    private static void m89() {
+        Integer a = null;
+        if (0 < a) {
+            System.out.println(1);
+        }
+    }
+
+    private static void m88() {
+        ArrayList<Integer> integers = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        System.out.println("1");
+        integers.parallelStream()
+                .forEach(v -> {
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                        System.out.println("v = " + v);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+        System.out.println("2");
+    }
+
+    private static void m87() {
         Calendar ca = Calendar.getInstance();
         ca.set(Calendar.HOUR_OF_DAY, 0);
         ca.set(Calendar.MINUTE, 0);
@@ -369,11 +431,6 @@ public class Test {
 
     }
 
-    private static void m65() {
-        String s = "1230123.1";
-        System.out.println(NumberUtils.isNumber(s));
-        System.out.println(NumberUtils.isDigits(s));
-    }
 
     private static void m64() {
         String s = "{'erpNo':'linjiayu8'}";
