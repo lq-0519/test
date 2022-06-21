@@ -6,19 +6,19 @@ import com.google.common.collect.Lists;
 import com.jd.marketing.activity.common.tool.BeanConverter;
 import lq.test.inner.bean.BeanSource;
 import lq.test.inner.bean.BeanTarget;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.msgpack.MessagePack;
 import org.springframework.beans.BeanUtils;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,9 +70,117 @@ public class Test {
         race++;
     }
 
+    private static final String[] PIN_LIST = new String[]{"10000139", "10000348", "10000782", "10000978", "10001076", "10001837"
+            , "10002114", "10002115", "10002345", "10003020", "10003695", "10003908", "10004147", "10004250", "10004684", "10004884"
+            , "10005422", "10005567", "10008345", "10008423", "10008973", "10009865", "10010313", "10011915", "10011935", "10011959"
+            , "10011961", "10012267", "10014123", "10014128", "10014142", "10014445", "10014533", "10015033", "10015190", "10016483"
+            , "10016516", "10016520", "10016829", "10017074", "10017454", "10017456", "10018676", "10018856", "10018864", "10019421"
+            , "10019483", "10019724", "10021401", "10022446", "10023208", "10024014", "10024865", "10025161", "10025186", "10025842"
+            , "10026833", "10028641", "10028723", "10028805", "10028826", "10029191", "10029602", "10029878", "10029965", "10030155"
+            , "10030625", "10030825", "10031224", "10031292", "10031364", "10031421", "10031431", "10031454", "10031587", "10032316"
+            , "10032365", "10032533", "10032988", "10033108", "10034128", "10034540", "10034580", "10034609", "10035348", "10036876"
+            , "10037056", "10037938", "10037939", "10038042", "10038063", "10039046", "10039762", "10040287", "10040796", "10040829"
+            , "10040858", "10040908", "10041096", "10091706", "10091777", "10092994", "10093043", "10093861", "10094287", "10095038"
+            , "10096069", "10096269", "10097031", "10097061", "10097452", "10097615", "10097813", "10098514", "10098731", "10098758"
+            , "10099605", "10100257", "10100846", "10100870", "10100973", "10101012", "10101094", "10101098", "10102895", "10103156"
+            , "10103222", "10103845", "10104280", "10104965", "10105515", "10108581", "10110053", "10111535", "10112068", "10112533"
+            , "10112767", "10112804", "10113230", "10113431", "10114262", "10114470", "10114884", "10115349", "10115367", "10116026"
+            , "10116221", "10116372", "10117433", "10117831", "10117896", "10117917", "10117982", "10118060", "10118928", "10118929"
+            , "10119694", "10119887", "10119889", "10120415", "10120433", "10120448", "10120451", "10121001", "10121728", "10122656"
+            , "10123335", "10123398", "10123502", "10123505", "10123677", "10123723", "10124194", "10124706", "10125314", "10125703"
+            , "10126548", "10127752", "10127811", "10128063", "10128124", "10128173", "10128271", "10128362", "10128377", "10128918"
+            , "10129005", "10129045", "10129198", "10129477", "10129512", "10129527", "10129622", "10129631", "10130955", "10130998"
+            , "10131070", "10131633", "10169689", "10169832", "10171092", "10172273", "10172410", "10173381", "10173397", "10173398"
+            , "10173399", "10173400", "10173406", "10173563", "10173642", "10173664", "10173806", "10174116", "10174338", "10174426"
+            , "10174583", "10175080", "10175141", "10175274", "10175333", "10175407", "10175462", "10175724", "10177850", "10179270"
+            , "10179638", "10179692", "10179787", "10180234", "10180451", "10181466", "10181483", "10181499", "10181502", "10181521"
+            , "10181522", "10181550", "10181731", "10182065", "10182164", "10182491", "10183222", "10183974", "10184131", "10184501"
+            , "10185112", "10185296", "10185402", "10185528", "10185869", "10185944", "10185947", "10186069", "10186485", "10186499"
+            , "10187277", "10187582", "10187781", "10187986", "10188139", "10188146", "10188172", "10188427", "10188485", "10188583"
+            , "10188611", "10188946", "10189357", "10189391", "10189427", "10189464", "10190042", "10190524", "10190817", "10191109"
+            , "10191652", "10192286", "10192401", "10192456", "10192728", "10193186", "10193948", "10196294", "10196311", "10196320"
+            , "10196437", "10196538", "10196552", "10196556", "10196596", "10196648", "10197757", "10198458", "10199422", "10199479"
+            , "10199578", "10201116", "10201215", "10201226", "10201244", "10201462", "10202573", "10202739", "10203895", "10203915"
+            , "10203964", "10204060", "10204479", "10204948", "10205197", "10205467", "10205475", "10205530", "10205585", "10206017"
+            , "10206206", "10206920", "10207122", "10207462", "10207469", "10207754", "10207772", "10207915", "10208877", "10209541"
+            , "10209978", "10210036", "10210604", "10211165", "10211432", "10212280", "10213337", "10213522", "10213636", "10213844"
+            , "10213903", "10213949", "10214391", "10215235", "10215811", "10215879", "10216346", "10217037", "10217621", "10217640"
+            , "10217692", "10217694", "10217838", "10217918", "10218408", "10218416", "10218510", "10218529", "10218551", "10219577"
+            , "10219762", "10219839", "10220216", "10220488", "10220639", "10220670", "10220734", "10220967", "10221059", "10221174"
+            , "10221553", "102217", "10222034", "10222154", "10222405", "10222801", "10222885", "10223145", "10223322", "10223348"
+            , "10224295", "10224307", "10224473", "10224474", "10224917", "10225033", "10225048", "10225067", "10225143", "10225154"
+            , "10225294", "10225595", "10227062", "10227379", "10227664", "10227695", "10227709", "10227859", "10227967", "10228008"
+    };
+
+    private static final String[] CODE_HD_LIST = new String[]{"material_maintain", "meeting_activity", "channel_resource", "inventory_activity", "goods_marking", "item_promotion", "shop_promotion", "promotion_inventory", "united_coupon",
+            "discount_promotion", "expanded_gold", "limit_amount", "platform_presale", "shop_reduction", "platform_promotion", "outside_promotion"};
+
+    private static final String[] CODE_YX_LIST = new String[]{"hd_activity", "channel_activity", "daily_activity", "jd_seckill", "brand_sale", "plus_vip", "home_resource", "coupon_center"};
+
+    private static final int[] QUERY_TYPE_LIST = {1, 2, 3, 4};
+
+    private static final String CHAR_LIST = "1234567890";
+
+    private static final String[] ORDER_BY_LIST = new String[]{"LAST_ASSIGN_TIME_ASC", "LAST_ASSIGN_TIME_DESC", "CARD_PUBLISH_TIME_ASC", "CARD_PUBLISH_TIME_DESC", "CARD_APPLY_END_TIME_ASC", "CARD_APPLY_END_TIME_DESC"};
+
     public static void main(String[] args) throws Exception {
-        OrderByEnum orderByEnum = OrderByEnum.parseOf(null);
-        System.out.println("orderByEnum = " + orderByEnum);
+        Random random = new Random();
+        String filepath = "/Users/liqian477/test_data";
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath));
+        // 生成1万条数据
+        for (int i = 0; i < 10000; i++) {
+            // 生成一条数据
+            SquareActivityQuery squareActivityQuery = new SquareActivityQuery();
+            squareActivityQuery.setCardPinType(20);
+            // pin
+            squareActivityQuery.setPin(PIN_LIST[random.nextInt(PIN_LIST.length)]);
+            // queryType
+            squareActivityQuery.setQueryType(QUERY_TYPE_LIST[random.nextInt(QUERY_TYPE_LIST.length)]);
+            // marketSceneTags
+            int i1 = random.nextInt(999999);
+            if (i1 % 8 == 0) {
+                List<String> marketSceneTags = new ArrayList<>();
+                int i2 = random.nextInt(3) + 1;
+                for (int j = 0; j < i2; j++) {
+                    marketSceneTags.add(CODE_YX_LIST[random.nextInt(CODE_YX_LIST.length)]);
+                }
+                squareActivityQuery.setMarketSceneTags(marketSceneTags);
+            }
+            // activityTypeTags
+            int i2 = random.nextInt(999999);
+            if (i2 % 8 == 0) {
+                List<String> activityTypeTags = new ArrayList<>();
+                int i3 = random.nextInt(3) + 1;
+                for (int j = 0; j < i3; j++) {
+                    activityTypeTags.add(CODE_HD_LIST[random.nextInt(CODE_HD_LIST.length)]);
+                }
+                squareActivityQuery.setActivityTypeTags(activityTypeTags);
+            }
+            // cardActivityName
+            int i3 = random.nextInt(999999);
+            if (i3 % 12 == 0) {
+                squareActivityQuery.setCardActivityName(String.valueOf(CHAR_LIST.charAt(random.nextInt(CHAR_LIST.length()))));
+            }
+            // activityBeginTime
+            Calendar instance = Calendar.getInstance();
+            instance.add(Calendar.DATE, random.nextInt(90));
+            Date afterDate = instance.getTime();
+            instance.add(Calendar.DATE, -random.nextInt(180));
+            Date beforeDate = instance.getTime();
+            squareActivityQuery.setMinActivityBeginTime(beforeDate);
+            squareActivityQuery.setMaxActivityBeginTime(afterDate);
+            // orderBy
+            squareActivityQuery.setOrderBy(ORDER_BY_LIST[random.nextInt(ORDER_BY_LIST.length)]);
+            // 文件写入
+            String jsonString = JSON.toJSONString(squareActivityQuery);
+            if (i != 0) {
+                bufferedWriter.write("\n");
+            }
+            bufferedWriter.write(jsonString);
+            bufferedWriter.write("|");
+            bufferedWriter.write((random.nextInt(10) + 1) + "");
+        }
+        bufferedWriter.close();
     }
 
     private static void m90() throws InterruptedException {
@@ -94,7 +202,6 @@ public class Test {
             System.out.println("异常1");
         }
         System.out.println("integer = " + integer);
-
         TimeUnit.SECONDS.sleep(20);
     }
 
